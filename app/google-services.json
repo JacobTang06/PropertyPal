@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "438723703381",
+    "project_id": "tangestate-9471b",
+    "storage_bucket": "tangestate-9471b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438723703381:android:5af1714e9809a97378dadc",
+        "android_client_info": {
+          "package_name": "com.example.tangestate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN4T8uiMA7f0b-KIQ34q4Q771K55czeZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
