@@ -14,7 +14,7 @@
 
 ### Description
 
-TangEstate is a mobile application designed for users to view and search for specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like.
+TangEstate is a mobile application designed for users to view and search for specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like. The app allows the users to view the features of the home they click on as well and keeps a log of all the homes they've liked/pinned.
 ### App Evaluation
 
 - **Category:** Real Estate
@@ -30,50 +30,45 @@ TangEstate is a mobile application designed for users to view and search for spe
 
 **Required Features**
 
-- [x] Interactive Lessons: Short lessons that teach vocabulary, grammar, and pronunciation through various exercises. Each Unit will have a lesson at the end that will be a cummulative lesson from what you have learned in that Unit.
-- [ ] Progress Tracking: Visual representation of users' progress in each language course, including streaks to encourage daily practice
-- [ ] Speaking Practice: Features voice recognition to help users practice pronunciation.
-- [ ] Leaderboards and Achievements: Motivational tools that allow users to compete with friends and earn badges for achievements.
-- [ ] Music Section: Access to music in the target language, with interactive subtitles
+- [ ] Login and Signup Functionality: Users must sign in to access house info and past house data they have saved.
+- [ ] Search Houses: Search bar that allows users to search up houses around their location and narrow down their search using filters.
+- [ ] Liked Houses: Database that stores houses and house details the users have liked/pinned.
+- [ ] House Details: Displays the details of the house when the user clicks on a specific house they are interested in.
+- [ ] Location Tracker: Uses a map API to track the location of the user to help with the house search.
 
 **Optional Features**
 
-- [ ] Cultural Lessons: Additonal lessons on the culture, traditions, and history associated with each language
-- [ ] Live Tutoring: Option to book live tutoring sessions with native speakers.
-- [ ] Language Exchange Community: A social feature that connects users with language exchange partners
+- [ ] AI Bot: incorporates an AI bot that provides feedback and advice to users who are house searching.
+- [ ] Neighborhood Tracker: provides details about the surrounding neighborhood of the specified location including school details and restaurant information.
 
 ### 2. Screen Archetypes
 - Login/Signup Screen 
-    - [x] Required Story: Users can sign up or login to access personalized language learning content.
+    - [x] Required Story: Users can sign up or login to access the app.
 - Home Screen (Dashboard)
-    - [ ] Required Story: Users can choose the language they want to learn, see their daily streak and access previously missed questions through the review feature.
-- Lesson(Quiz) Screen
-    - [x] Required Story: Users can select and partake in lessons.
-- Profile/Progess Screen
-    - [ ] Required Story: User's can view their learning progress, achievements, and their status in a community leaderboard.
-- Settings Screen
-    - [x] Required Story: User's can adjust their settings, manage thier account, or log out.
-- Discover Screen
-    - [ ] Required Story: User's can explore different kinds of music in their desired language.
-- Play Screen
-    - [ ] Required Story: User's can choose specific songs to play in the language they are trying to learn.
+    - [ ] Required Story: Location of the user is shown. Users have the ability to change the location to the area they want to search for houses.
+- Search Screen
+    - [ ] Required Story: Users can search for houses around their location. They can refine their search using specific filters.
+- Favorites Screen
+    - [ ] Required Story: Users can view the houses they've liked/pinned.
+- Profile Screen
+    - [ ] Required Story: Users can adjust their settings, manage their account, or log out.
+- Details Screen
+    - [ ] Required Story: Users can view the details of the house, including the price, # of bedrooms and bathrooms, and the square footage.
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* Learn: Shows directory of lessons, and what lessons have been completed or are in progress.
-* Discover: Allows users to explore additional content like movies, music, and cultural lessons
-* Profile: Takes users to their profile where they can view their progress, achievements, and settings
-* Home: Shows users their progress, daily lesson recommendations, and access to all courses.
+* Favorites: Keeps a log of the all the houses the user liked/pinned.
+* Search: Allows users to search for homes around the location they listed and narrow down their search using filters.
+* Profile: Takes users to their profile where they can view their account settings.
+* Home: Shows users their current location and allows users to change their location to change the area of their house search.
 
 **Flow Navigation** (Screen to Screen)
 
 - Login Screen => Home Screen (By Default) or Login Screen => Signup Screen
-- Signup screen => Home Screen (By Default)
-- Learn Screen Screen <==> Lesson(Quiz) Screen
-- Profile/Progress Screen <==> Settings Screen
-- Discover Screen <==> Play Screen
+- Signup Screen => Home Screen (By Default)
+- Search Screen <==> Details Screen
 
 ## Wireframes
 
@@ -81,12 +76,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 
 <br>
 
-### [BONUS] Digital Wireframes & Mockups
-<img src="Language Learning App Figma Wireframe.png" width=600>
-
-<br>
-
-### [BONUS] Interactive Prototype
+### Interactive Prototype
 <img src="Wireframe-Walkthrough.gif" width=600>
 
 <br>
