@@ -18,7 +18,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 ### App Evaluation
 
 - **Category:** Real Estate
-- **Mobile:** This app is designed for users to 
+- **Mobile:** The app is designed for users to be able to search and look at homes on their mobile devices.
 - **Story:** 
 - **Market:** 
 - **Habit:** 
