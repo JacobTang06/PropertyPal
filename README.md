@@ -70,8 +70,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 - Signup Screen => Home Screen (By Default)
 - Search Screen <==> Details Screen
 
-## Wireframes
-
+### Digital Wireframe
 <img src="Wireframe.jpg" width=600>
 
 <br>
