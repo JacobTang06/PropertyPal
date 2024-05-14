@@ -14,11 +14,11 @@
 
 ### Description
 
-TangEstate is a mobile application designed for users to look at specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like.
+TangEstate is a mobile application designed for users to view and search for specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like.
 ### App Evaluation
 
 - **Category:** Real Estate
-- **Mobile:** 
+- **Mobile:** This app is designed for users to 
 - **Story:** 
 - **Market:** 
 - **Habit:** 
