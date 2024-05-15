@@ -18,11 +18,11 @@ TangEstate is a mobile application designed for users to view and search for spe
 ### App Evaluation
 
 - **Category:** Real Estate
-- **Mobile:** The app is designed for users to be able to search and look at homes on their mobile devices.
-- **Story:** 
-- **Market:** 
-- **Habit:** 
-- **Scope:** 
+- **Mobile:** The app is optimized for mobile devices, providing users with the flexibility to search and view properties on the go. Its responsive design ensures seamless navigation and functionality, enhancing the user experience.
+- **Story:** The app offers users the opportunity to explore a wide range of properties, from houses to apartments, utilizing an intuitive interface. Users can easily search for homes based on location, price range, number of bedrooms/bathrooms, and other customizable filters. Detailed listings provide comprehensive information about each property, including photos, descriptions, amenities, and contact details for agents or sellers. Users can also save favorite listings.
+- **Market:** The real estate market is highly competitive and dynamic, with a growing number of consumers relying on digital platforms to search for properties. This app caters to the needs of both buyers and sellers, offering a convenient and efficient way to connect with potential properties or buyers. With the increasing reliance on mobile technology for everyday tasks, the app targets a broad demographic of users who prefer the convenience of accessing property listings anytime, anywhere.
+- **Habit:** The app aims to become a go-to destination for individuals and families in their quest for finding their dream home or investment property. By providing a seamless and engaging user experience, the app encourages users to frequent the platform regularly. Features such as saved searches and personalized recommendations keep users actively engaged and informed about new opportunities in the market. The habit-forming nature of the app fosters long-term usage and establishes it as an indispensable tool in the real estate journey of its users.
+- **Scope:** The app's comprehensive features whether it be property search or location tracking cater to the diverse needs of users, whether they are first-time homebuyers, seasoned investors, or sellers looking to showcase their properties. Additionally, potential expansions into additional markets or integration with emerging technologies could further broaden the app's scope and impact within the real estate industry.
 
 ## Product Spec
 
