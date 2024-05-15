@@ -5,10 +5,122 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/account_settings_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Settings"
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/display_settings_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display"
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="300dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/notifications_text"
+        android:text="Notifications"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:textColor="@color/black"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/manage_account_text"
+        android:text="Account Center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="110dp"/>
+
+    <TextView
+        android:id="@+id/about_app_text"
+        android:text="About"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="160dp"/>
+
+    <TextView
+        android:id="@+id/brightness_level_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Brightness Level"
+        android:textColor="@color/black"
+        android:layout_marginTop="340dp"
+        android:layout_marginStart="70dp"/>
+
+    <SeekBar
+        android:id="@+id/brightness_level_seekbar"
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="370dp"
+        android:max="100"
+        android:progressBackgroundTint="@color/black"
+        android:progressTintMode="@color/black" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/profile_screen_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="250dp"/>
+
+    <ImageView
+        android:id="@+id/notifications_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/notifications_icon"/>
+
+    <ImageView
+        android:id="@+id/manage_account_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/manage_account_icon"/>
+
+    <ImageView
+        android:id="@+id/about_app_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/about_icon"/>
+
+    <ImageView
+        android:id="@+id/brightness_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/brightness_icon"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGNOUT"
+        android:fontFamily="@font/adamina"
+        android:padding="10dp"
+        android:backgroundTint="@color/goldenYellow"
+        android:layout_marginTop="600dp"
+        android:layout_marginStart="160dp"/>
+
+
+
 
 </FrameLayout>

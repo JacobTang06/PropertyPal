@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
         val homeFragment : Fragment = HomeFragment()
         val searchFragment : Fragment = SearchFragment()
-        val historyFragment : Fragment = HistoryFragment()
+        val favoriteFragment : Fragment = FavoriteFragment()
         val profileFragment : Fragment = ProfileFragment()
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.bottom_navigation)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.nav_home -> fragment = homeFragment
                 R.id.nav_search -> fragment = searchFragment
-                R.id.nav_history -> fragment = historyFragment
+                R.id.nav_favorites -> fragment = favoriteFragment
                 R.id.nav_profile -> fragment = profileFragment
             }
             replaceFragment(fragment)
