@@ -68,8 +68,9 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="370dp"
         android:max="100"
+        android:thumbTint="@color/black"
         android:progressBackgroundTint="@color/black"
-        android:progressTintMode="@color/black" />
+        android:backgroundTint="@color/black" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/profile_screen_divider"
@@ -117,8 +118,8 @@
         android:fontFamily="@font/adamina"
         android:padding="10dp"
         android:backgroundTint="@color/goldenYellow"
-        android:layout_marginTop="600dp"
-        android:layout_marginStart="160dp"/>
+        android:layout_marginTop="500dp"
+        android:layout_gravity="center_horizontal"/>
 
 
 

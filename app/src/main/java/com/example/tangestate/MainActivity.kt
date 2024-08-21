@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val homeFragment : Fragment = HomeFragment()
+        val recommendationsFragment : Fragment = RecommendationsFragment()
         val searchFragment : Fragment = SearchFragment()
         val favoriteFragment : Fragment = FavoriteFragment()
         val profileFragment : Fragment = ProfileFragment()
@@ -20,15 +20,15 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener { item ->
             lateinit var fragment : Fragment
             when(item.itemId) {
-                R.id.nav_home -> fragment = homeFragment
-                R.id.nav_search -> fragment = searchFragment
+                R.id.nav_suggestions -> fragment = recommendationsFragment
+                R.id.nav_browse -> fragment = searchFragment
                 R.id.nav_favorites -> fragment = favoriteFragment
                 R.id.nav_profile -> fragment = profileFragment
             }
             replaceFragment(fragment)
             true
         }
-        bottomNavigation.selectedItemId = R.id.nav_home
+        bottomNavigation.selectedItemId = R.id.nav_browse
     }
 
     private fun replaceFragment(fragment: Fragment) {

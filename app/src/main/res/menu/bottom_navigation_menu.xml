@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_home"
-        android:title="Home"
-        android:icon="@drawable/baseline_home_24" />
-    <item
-        android:id="@+id/nav_search"
-        android:title="Search"
+        android:id="@+id/nav_browse"
+        android:title="Browse"
         android:icon="@drawable/baseline_search_24" />
     <item
         android:id="@+id/nav_favorites"
         android:title="Favorites"
         android:icon="@drawable/baseline_bookmark_24" />
+    <item
+        android:id="@+id/nav_suggestions"
+        android:title="Suggestions"
+        android:icon="@drawable/baseline_home_24" />
     <item
         android:id="@+id/nav_profile"
         android:title="Profile"

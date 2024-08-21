@@ -1,59 +1,105 @@
 package com.example.tangestate
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import com.codepath.asynchttpclient.AsyncHttpClient
+import com.codepath.asynchttpclient.RequestParams
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import okhttp3.Headers
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val TAG = "SearchFragment"
+private const val API_KEY = "48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var filterText : TextView
+    private lateinit var minPrice : EditText
+    private lateinit var maxPrice : EditText
+    private lateinit var minBeds : EditText
+    private lateinit var maxBeds : EditText
+    private lateinit var minBaths : EditText
+    private lateinit var maxBaths : EditText
+    private lateinit var minSqft : EditText
+    private lateinit var maxSqft : EditText
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_browse, container, false)
+        fetchHouses()
+        filterText = view.findViewById(R.id.filter_text)
+        minPrice = view.findViewById(R.id.minPrice_editText)
+        maxPrice = view.findViewById(R.id.maxPrice_editText)
+        minBeds = view.findViewById(R.id.minBeds_editText)
+        maxBeds = view.findViewById(R.id.maxBeds_editText)
+        minBaths = view.findViewById(R.id.minBaths_editText)
+        maxBaths = view.findViewById(R.id.maxBaths_editText)
+        minSqft = view.findViewById(R.id.minSqft_editText)
+        maxSqft = view.findViewById(R.id.maxSqft_editText)
+
+        filterText.setOnClickListener {
+            if(filterText.text == "SHOW FILTERS") {
+                filterText.text = "HIDE FILTERS"
+
+                minPrice.visibility = View.VISIBLE
+                maxPrice.visibility = View.VISIBLE
+                minBeds.visibility = View.VISIBLE
+                maxBeds.visibility = View.VISIBLE
+                minBaths.visibility = View.VISIBLE
+                maxBaths.visibility = View.VISIBLE
+                minSqft.visibility = View.VISIBLE
+                maxSqft.visibility = View.VISIBLE
+            }
+            else {
+                filterText.text = "SHOW FILTERS"
+
+                minPrice.visibility = View.INVISIBLE
+                maxPrice.visibility = View.INVISIBLE
+                maxPrice.visibility = View.INVISIBLE
+                minBeds.visibility = View.INVISIBLE
+                maxBeds.visibility = View.INVISIBLE
+                minBaths.visibility = View.INVISIBLE
+                maxBaths.visibility = View.INVISIBLE
+                minSqft.visibility = View.INVISIBLE
+                maxSqft.visibility = View.INVISIBLE
+            }
+        }
+        return view
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance() : SearchFragment {
+            return SearchFragment()
+        }
+    }
+
+    private fun fetchHouses() {
+        val client = AsyncHttpClient()
+        var params = RequestParams()
+        //params["X-RapidAPI-Key"] = API_KEY
+        //params["location"] = "houston, tx"
+
+        client.get("https://zillow-com4.p.rapidapi.com/properties/search?location=Houston%2C%20TX?x_rapidapi_key=48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de", object: JsonHttpResponseHandler(){
+            override fun onFailure(
+                statusCode: Int,
+                headers: Headers?,
+                response: String?,
+                throwable: Throwable?
+            ) {
+                Log.e(TAG, "onFailure $response")
             }
+
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
+                Log.i(TAG, "onSuccess: JSON moovies data $json")
+
+            }
+        })
     }
 }
