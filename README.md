@@ -34,7 +34,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 - [ ] Search Houses: Search bar that allows users to search up houses around their location and narrow down their search using filters.
 - [ ] Liked Houses: Database that stores houses and house details the users have liked/pinned.
 - [ ] House Details: Displays the details of the house when the user clicks on a specific house they are interested in.
-- [ ] Location Tracker: Uses a map API to track the location of the user to help with the house search.
+- [ ] House Statistics: Keeps track of liked houses statistics to provide house recommendations to the user.
 
 **Optional Features**
 
@@ -44,9 +44,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 ### 2. Screen Archetypes
 - Login/Signup Screen 
     - [x] Required Story: Users can sign up or login to access the app.
-- Home Screen (Dashboard)
-    - [ ] Required Story: Location of the user is shown. Users have the ability to change the location to the area they want to search for houses.
-- Search Screen
+- Browse Screen (Dashboard)
     - [ ] Required Story: Users can search for houses around their location. They can refine their search using specific filters.
 - Favorites Screen
     - [ ] Required Story: Users can view the houses they've liked/pinned.
@@ -54,21 +52,25 @@ TangEstate is a mobile application designed for users to view and search for spe
     - [ ] Required Story: Users can adjust their settings, manage their account, or log out.
 - Details Screen
     - [ ] Required Story: Users can view the details of the house, including the price, # of bedrooms and bathrooms, and the square footage.
+ - Suggestions Screen
+    - [ ] Required Story: Keeps track of liked houses statistics and uses that data to provide house recommendations to the user.
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
 * Favorites: Keeps a log of the all the houses the user liked/pinned.
-* Search: Allows users to search for homes around the location they listed and narrow down their search using filters.
+* Browse: Allows users to search for homes around the location they listed and narrow down their search using filters.
 * Profile: Takes users to their profile where they can view their account settings.
-* Home: Shows users their current location and allows users to change their location to change the area of their house search.
+* Suggestions: Provides users with a recommended list of houses for them to check out.
 
 **Flow Navigation** (Screen to Screen)
 
-- Login Screen => Home Screen (By Default) or Login Screen => Signup Screen
-- Signup Screen => Home Screen (By Default)
-- Search Screen <==> Details Screen
+- Login Screen => Browse Screen (By Default) or Login Screen => Signup Screen
+- Signup Screen => Browse Screen (By Default)
+- Browse Screen <==> Details Screen
+- Favorites Screen <==> Details Screen
+- Suggestions Screen <==> Details Screen
 
 ### Digital Wireframe
 <img src="DigitalWireframe.png" width=600>
