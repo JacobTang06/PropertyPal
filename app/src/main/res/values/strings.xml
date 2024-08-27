@@ -2,4 +2,13 @@
     <string name="app_name">TangEstate</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="building_type_items">
+        <item>Houses</item>
+        <item>Apartments</item>
+        <item>Townhouses</item>
+    </string-array>
+    <string-array name="home_status_items">
+        <item>Sold</item>
+        <item>For Sale</item>
+    </string-array>
 </resources>

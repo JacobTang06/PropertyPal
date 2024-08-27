@@ -1,4 +1,4 @@
 package com.example.tangestate
 
-class HouseEntity {
+class FavoriteHousesAdapter {
 }

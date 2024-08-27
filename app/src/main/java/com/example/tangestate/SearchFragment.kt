@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestParams
@@ -26,14 +29,19 @@ class SearchFragment : Fragment() {
     private lateinit var maxBaths : EditText
     private lateinit var minSqft : EditText
     private lateinit var maxSqft : EditText
+    private lateinit var houseType : Spinner
+    private lateinit var houseStatus : Spinner
+    private lateinit var garageStatus : CheckBox
+    private lateinit var poolStatus : CheckBox
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
-        fetchHouses()
+
         filterText = view.findViewById(R.id.filter_text)
+
         minPrice = view.findViewById(R.id.minPrice_editText)
         maxPrice = view.findViewById(R.id.maxPrice_editText)
         minBeds = view.findViewById(R.id.minBeds_editText)
@@ -42,6 +50,10 @@ class SearchFragment : Fragment() {
         maxBaths = view.findViewById(R.id.maxBaths_editText)
         minSqft = view.findViewById(R.id.minSqft_editText)
         maxSqft = view.findViewById(R.id.maxSqft_editText)
+        houseType = view.findViewById(R.id.building_type_spinner)
+        houseStatus = view.findViewById(R.id.home_status_spinner)
+        garageStatus = view.findViewById(R.id.hasGarage_checkbox)
+        poolStatus = view.findViewById(R.id.hasPool_checkbox)
 
         filterText.setOnClickListener {
             if(filterText.text == "SHOW FILTERS") {
@@ -55,6 +67,27 @@ class SearchFragment : Fragment() {
                 maxBaths.visibility = View.VISIBLE
                 minSqft.visibility = View.VISIBLE
                 maxSqft.visibility = View.VISIBLE
+                houseStatus.visibility = View.VISIBLE
+                houseType.visibility = View.VISIBLE
+                garageStatus.visibility = View.VISIBLE
+                poolStatus.visibility = View.VISIBLE
+
+                ArrayAdapter.createFromResource(
+                    view.context,
+                    R.array.building_type_items,
+                    android.R.layout.simple_spinner_item
+                ).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    houseType.adapter = adapter
+                }
+                ArrayAdapter.createFromResource(
+                    view.context,
+                    R.array.home_status_items,
+                    android.R.layout.simple_spinner_item
+                ).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    houseStatus.adapter = adapter
+                }
             }
             else {
                 filterText.text = "SHOW FILTERS"
@@ -68,8 +101,13 @@ class SearchFragment : Fragment() {
                 maxBaths.visibility = View.INVISIBLE
                 minSqft.visibility = View.INVISIBLE
                 maxSqft.visibility = View.INVISIBLE
+                houseStatus.visibility = View.INVISIBLE
+                houseType.visibility = View.INVISIBLE
+                garageStatus.visibility = View.INVISIBLE
+                poolStatus.visibility = View.INVISIBLE
             }
         }
+        fetchHouses()
         return view
     }
 

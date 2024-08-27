@@ -8,31 +8,17 @@
     android:id="@+id/browse_screen_layout"
     tools:context=".SearchFragment">
 
-    <TextView
-        android:id="@+id/browse_screen_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/adamina"
-        android:text="Browse"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <SearchView
         android:id="@+id/browse_screen_searchbar"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:background="@drawable/searchview_background"
         android:iconifiedByDefault="false"
         android:queryHint="Search address, city, zipcode..."
+        android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/browse_screen_title"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/filter_text"
@@ -47,43 +33,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/browse_screen_searchbar"/>
 
-<!--    <AutoCompleteTextView-->
-<!--        android:id="@+id/home_status_dropdown"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="For Sale"-->
-<!--        android:textSize="12sp"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:layout_marginStart="100dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/filter_text"/>-->
+    <Spinner
+        android:id="@+id/home_status_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_text"/>
 
     <Spinner
         android:id="@+id/building_type_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
+        android:visibility="invisible"
+        android:layout_marginStart="40dp"
         app:layout_constraintTop_toBottomOf="@id/filter_text"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Spinner
-        android:id="@+id/home_status_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_text"/>
-
-<!--    <AutoCompleteTextView-->
-<!--        android:id="@+id/building_type_dropdown"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Houses"-->
-<!--        android:textSize="12sp"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:layout_marginEnd="100dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/filter_text"/>-->
+        app:layout_constraintStart_toEndOf="@id/home_status_spinner"/>
 
     <EditText
         android:id="@+id/minPrice_editText"
@@ -91,6 +57,7 @@
         android:layout_height="wrap_content"
         android:hint="Min Price"
         android:textSize="15dp"
+        android:inputType="numberDecimal"
         android:layout_marginVertical="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="40dp"
@@ -106,6 +73,7 @@
         android:layout_marginHorizontal="20dp"
         android:hint="Max Price"
         android:textSize="15dp"
+        android:inputType="numberDecimal"
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@id/minPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/home_status_spinner"/>
@@ -116,6 +84,7 @@
         android:layout_height="wrap_content"
         android:hint="Min Beds"
         android:textSize="15dp"
+        android:inputType="number"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/minPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
@@ -126,6 +95,7 @@
         android:layout_height="wrap_content"
         android:hint="Max Beds"
         android:textSize="15dp"
+        android:inputType="number"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/minPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
@@ -136,6 +106,7 @@
         android:layout_height="wrap_content"
         android:hint="Min Baths"
         android:textSize="15dp"
+        android:inputType="numberDecimal"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/maxPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
@@ -146,6 +117,7 @@
         android:layout_height="wrap_content"
         android:hint="Max Baths"
         android:textSize="15dp"
+        android:inputType="numberDecimal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/maxPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
@@ -156,6 +128,7 @@
         android:layout_height="wrap_content"
         android:hint="Min Sqft"
         android:textSize="15sp"
+        android:inputType="number"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/minPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/minBeds_editText" />
@@ -166,6 +139,7 @@
         android:layout_height="wrap_content"
         android:hint="Max Sqft"
         android:textSize="15sp"
+        android:inputType="number"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/minPrice_editText"
         app:layout_constraintTop_toBottomOf="@id/maxBeds_editText" />

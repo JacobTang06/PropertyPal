@@ -6,11 +6,11 @@
     tools:context=".RecommendationsFragment">
 
     <TextView
-        android:id="@+id/recommendation_text"
+        android:id="@+id/suggestion_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="Recommendations"
+        android:text="Suggestions"
         android:textStyle="bold"
         android:textSize="30sp"
         android:fontFamily="@font/adamina"
