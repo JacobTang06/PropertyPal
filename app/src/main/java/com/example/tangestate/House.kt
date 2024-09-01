@@ -13,7 +13,7 @@ class House {
     var houseBeds : Integer? = null
 
     @SerializedName("bathrooms")
-    var houseBath : Float? = null
+    var houseBaths : Float? = null
 
     @SerializedName("livingArea")
     var houseSqft : Float? = null
@@ -21,8 +21,8 @@ class House {
     @SerializedName("homeStatus")
     var houseStatus : String? = null
 
-    @SerializedName("homeType")
-    var houseType : String? = null
+//    @SerializedName("homeType")
+//    var houseType : String? = null
 
     @SerializedName("streetAddress")
     var houseAddress : String? = null

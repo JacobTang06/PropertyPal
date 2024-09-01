@@ -1,47 +1,79 @@
 package com.example.tangestate
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.text.bold
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import org.w3c.dom.Text
 
-class SearchHousesAdapter (private val houses : List<House>) : RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
-
-    // Provide a direct reference to each of the views within a data item
-    // Used to cache the views within the item layout for fast access
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        // val foodName : TextView
-        // val foodCalories : TextView
-
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each sub-view
-        init {
-            // foodName = itemView.findViewById(R.id.food_item_name)
-            // foodCalories = itemView.findViewById(R.id.food_item_calories)
-        }
-    }
+class SearchHousesAdapter (private val context: Context, private val houses : List<House>) : RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-        // Inflate the custom layout
-        val contactView = inflater.inflate(R.layout.house_item, parent, false)
-        // Return a new holder instance
-        return ViewHolder(contactView)
-    }
-
-    override fun getItemCount(): Int {
-        return houses.size
+        val view = LayoutInflater.from(context).inflate(R.layout.house_item, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val house = houses.get(position)
+        val house = houses[position]
+        holder.bind(house)
+    }
 
-//        holder.foodName.text = food.name
-//        holder.foodCalories.text = food.calories.toString()
+    override fun getItemCount() = houses.size
+
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+
+        val housePrice = itemView.findViewById<TextView>(R.id.house_price_textview)
+        val houseBeds = itemView.findViewById<TextView>(R.id.house_beds_textview)
+        val houseBaths = itemView.findViewById<TextView>(R.id.house_baths_textview)
+        val houseSqft = itemView.findViewById<TextView>(R.id.house_sqft_textview)
+        val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
+        val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
+        val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
+        val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        fun bind(house: House) {
+            housePrice.text = house.housePrice.toString()
+            houseBaths.text = house.houseBaths.toString()
+            houseBeds.text = house.houseBeds.toString()
+            houseSqft.text = house.houseSqft.toString()
+            houseAddress.text = house.houseAddress + ", " +
+                    house.houseCity + ", " +
+                    house.houseState + house.houseZipcode
+            houseStatus.text = house.houseStatus
+
+            Glide.with(itemView)
+                .load(house.houseImageUrl)
+                .centerInside()
+                .into(houseImage)
+
+            likeButton.setOnClickListener {
+                // add house to favorite fragment
+                // need to pertain data and transfer it to fragment
+            }
+        }
+
+        override fun onClick(v : View?) {
+            // Get selected house
+            // val house = houses[absoluteAdapterPosition]
+
+            // Navigate to Details screen and pass selected house
+            val intent = Intent(context, HouseDetailsActivity::class.java)
+            // intent.putExtra("HOUSE_EXTRA", house) has to be serialization
+            context.startActivity(intent)
+        }
 
     }
+
 }

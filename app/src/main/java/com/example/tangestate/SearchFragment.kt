@@ -6,20 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import com.google.android.material.search.SearchBar
+import com.google.gson.reflect.TypeToken
 import okhttp3.Headers
+import org.json.JSONObject
+import com.google.gson.Gson
 
 private const val TAG = "SearchFragment"
 private const val API_KEY = "48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de"
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
+    private lateinit var searchBar : SearchView
     private lateinit var filterText : TextView
     private lateinit var minPrice : EditText
     private lateinit var maxPrice : EditText
@@ -30,9 +33,14 @@ class SearchFragment : Fragment() {
     private lateinit var minSqft : EditText
     private lateinit var maxSqft : EditText
     private lateinit var houseType : Spinner
+    private lateinit var houseTypeText : String
     private lateinit var houseStatus : Spinner
+    private lateinit var houseStatusText : String
     private lateinit var garageStatus : CheckBox
     private lateinit var poolStatus : CheckBox
+    lateinit var houseItems : MutableList<House>
+    lateinit var houseAdapter : SearchHousesAdapter
+    lateinit var housesRv : RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +48,7 @@ class SearchFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
 
+        searchBar = view.findViewById(R.id.browse_screen_searchbar)
         filterText = view.findViewById(R.id.filter_text)
 
         minPrice = view.findViewById(R.id.minPrice_editText)
@@ -88,6 +97,9 @@ class SearchFragment : Fragment() {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     houseStatus.adapter = adapter
                 }
+
+                houseStatus.onItemSelectedListener = this
+                houseType.onItemSelectedListener = this
             }
             else {
                 filterText.text = "SHOW FILTERS"
@@ -107,8 +119,33 @@ class SearchFragment : Fragment() {
                 poolStatus.visibility = View.INVISIBLE
             }
         }
-        fetchHouses()
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fetchHouses("")
+
+        searchBar.clearFocus()
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query != null) {
+                    fetchHouses(query)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                if(query != null) {
+                    fetchHouses(query)
+                }
+                return true
+            }
+
+        })
+
     }
 
     companion object {
@@ -118,13 +155,43 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun fetchHouses() {
+    private fun fetchHouses(searchText : String) {
         val client = AsyncHttpClient()
         var params = RequestParams()
         //params["X-RapidAPI-Key"] = API_KEY
-        //params["location"] = "houston, tx"
 
-        client.get("https://zillow-com4.p.rapidapi.com/properties/search?location=Houston%2C%20TX?x_rapidapi_key=48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de", object: JsonHttpResponseHandler(){
+        lateinit var clientUrl : String
+
+        if(!(minPrice.text.isNullOrBlank() and maxPrice.text.isNullOrBlank() and
+                    maxBeds.text.isNullOrBlank() and minBeds.text.isNullOrBlank() and
+                    maxBaths.text.isNullOrBlank() and minBaths.text.isNullOrBlank() and
+                    maxSqft.text.isNullOrBlank() and minSqft.text.isNullOrBlank() and searchText.isNullOrBlank())) {
+            params["location"] = searchText
+            params["home_type"] = houseTypeText
+            params["status_type"] = houseStatusText
+            params["minPrice"] = minPrice.text.toString()
+            params["maxPrice"] = maxPrice.text.toString()
+            params["bathsMin"] = minBaths.text.toString()
+            params["bathsMax"] = maxBaths.text.toString()
+            params["bedsMin"] = minBeds.text.toString()
+            params["bedsMax"] = maxBeds.text.toString()
+            params["sqftMin"] = minSqft.text.toString()
+            params["sqftMax"] = maxSqft.text.toString()
+
+            if(garageStatus.isChecked) {
+                params["hasGarage"] = "True"
+            }
+            if(poolStatus.isChecked) {
+                params["hasPool"] = "True"
+            }
+
+            clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch?api_key={API_KEY}"
+        }
+        else {
+            clientUrl = "https://zillow-com1.p.rapidapi.com/property?api_key={API_KEY}"
+        }
+
+        client.get(clientUrl, object: JsonHttpResponseHandler(){
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
@@ -137,7 +204,32 @@ class SearchFragment : Fragment() {
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
                 Log.i(TAG, "onSuccess: JSON moovies data $json")
 
+                val resultsJSON = json.jsonObject.get("results") as JSONObject
+                val propertiesJSON = resultsJSON.get("properties").toString()
+
+                val gson = Gson()
+
+                val arrayTutorialType = object : TypeToken<List<House>>() {}.type
+                houseItems.add(gson.fromJson(propertiesJSON, arrayTutorialType))
+
             }
         })
+
+
+    }
+
+    override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, l: Long) {
+        if (adapterView != null) {
+            when(adapterView.id) {
+                R.id.home_status_spinner -> houseStatusText = adapterView.getItemAtPosition(position).toString().replace("\\s".toRegex(), "")
+                R.id.building_type_spinner -> houseTypeText = adapterView.getItemAtPosition(position).toString().replace("\\s".toRegex(), "")
+
+            }
+
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
     }
 }
