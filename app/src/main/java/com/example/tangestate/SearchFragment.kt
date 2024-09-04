@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
@@ -38,15 +39,18 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var houseStatusText : String
     private lateinit var garageStatus : CheckBox
     private lateinit var poolStatus : CheckBox
-    lateinit var houseItems : MutableList<House>
-    lateinit var houseAdapter : SearchHousesAdapter
-    lateinit var housesRv : RecyclerView
+    private lateinit var housesAdapter : SearchHousesAdapter
+    private lateinit var housesRv : RecyclerView
+    private var houseItems = listOf<House>()
+    private lateinit var sharedViewModel : SharedViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
+
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         searchBar = view.findViewById(R.id.browse_screen_searchbar)
         filterText = view.findViewById(R.id.filter_text)
@@ -63,6 +67,13 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         houseStatus = view.findViewById(R.id.home_status_spinner)
         garageStatus = view.findViewById(R.id.hasGarage_checkbox)
         poolStatus = view.findViewById(R.id.hasPool_checkbox)
+
+        val layoutManager = LinearLayoutManager(context)
+        housesRv = view.findViewById(R.id.browse_houses_rv)
+        housesRv.layoutManager = layoutManager
+        housesRv.setHasFixedSize(true)
+        housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel)
+        housesRv.adapter = housesAdapter
 
         filterText.setOnClickListener {
             if(filterText.text == "SHOW FILTERS") {
@@ -138,9 +149,6 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                if(query != null) {
-                    fetchHouses(query)
-                }
                 return true
             }
 
@@ -204,14 +212,17 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
                 Log.i(TAG, "onSuccess: JSON moovies data $json")
 
+                // properties -> props -> items -> properties
+
                 val resultsJSON = json.jsonObject.get("results") as JSONObject
                 val propertiesJSON = resultsJSON.get("properties").toString()
 
                 val gson = Gson()
 
                 val arrayTutorialType = object : TypeToken<List<House>>() {}.type
-                houseItems.add(gson.fromJson(propertiesJSON, arrayTutorialType))
+                houseItems = gson.fromJson(propertiesJSON, arrayTutorialType)
 
+                housesAdapter.notifyDataSetChanged()
             }
         })
 

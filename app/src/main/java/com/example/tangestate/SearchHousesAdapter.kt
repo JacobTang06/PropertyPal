@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
-class SearchHousesAdapter (private val context: Context, private val houses : List<House>) : RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
-
+class SearchHousesAdapter (private val context: Context, private val houses : List<House>, private val viewModel : SharedViewModel) : RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.house_item, parent, false)
         return ViewHolder(view)
@@ -30,14 +30,14 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        val housePrice = itemView.findViewById<TextView>(R.id.house_price_textview)
-        val houseBeds = itemView.findViewById<TextView>(R.id.house_beds_textview)
-        val houseBaths = itemView.findViewById<TextView>(R.id.house_baths_textview)
-        val houseSqft = itemView.findViewById<TextView>(R.id.house_sqft_textview)
-        val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
-        val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
-        val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
-        val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
+        private val housePrice = itemView.findViewById<TextView>(R.id.house_price_textview)
+        private val houseBeds = itemView.findViewById<TextView>(R.id.house_beds_textview)
+        private val houseBaths = itemView.findViewById<TextView>(R.id.house_baths_textview)
+        private val houseSqft = itemView.findViewById<TextView>(R.id.house_sqft_textview)
+        private val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
+        private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
+        private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
+        private val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
 
         init {
             itemView.setOnClickListener(this)
@@ -59,6 +59,7 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 .into(houseImage)
 
             likeButton.setOnClickListener {
+                viewModel.favoriteHouseItems.add(house)
                 // add house to favorite fragment
                 // need to pertain data and transfer it to fragment
             }
