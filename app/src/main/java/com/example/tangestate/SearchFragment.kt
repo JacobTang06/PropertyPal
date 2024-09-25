@@ -25,6 +25,7 @@ private const val API_KEY = "48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de"
 class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var searchBar : SearchView
     private lateinit var filterText : TextView
+
     private lateinit var minPrice : EditText
     private lateinit var maxPrice : EditText
     private lateinit var minBeds : EditText
@@ -52,6 +53,43 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
+        setupFilters(view)
+        setupRecyclerView(view)
+        filterButtonClicked(view)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fetchHouses("")
+
+        searchBar.clearFocus()
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query != null) {
+                    fetchHouses(query)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                return true
+            }
+
+        })
+
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() : SearchFragment {
+            return SearchFragment()
+        }
+    }
+
+    private fun setupFilters(view: View) {
         searchBar = view.findViewById(R.id.browse_screen_searchbar)
         filterText = view.findViewById(R.id.filter_text)
 
@@ -67,14 +105,18 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         houseStatus = view.findViewById(R.id.home_status_spinner)
         garageStatus = view.findViewById(R.id.hasGarage_checkbox)
         poolStatus = view.findViewById(R.id.hasPool_checkbox)
+    }
 
+    private fun setupRecyclerView(view: View) {
         val layoutManager = LinearLayoutManager(context)
         housesRv = view.findViewById(R.id.browse_houses_rv)
         housesRv.layoutManager = layoutManager
         housesRv.setHasFixedSize(true)
         housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel)
         housesRv.adapter = housesAdapter
+    }
 
+    private fun filterButtonClicked(view: View) {
         filterText.setOnClickListener {
             if(filterText.text == "SHOW FILTERS") {
                 filterText.text = "HIDE FILTERS"
@@ -129,37 +171,6 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 garageStatus.visibility = View.INVISIBLE
                 poolStatus.visibility = View.INVISIBLE
             }
-        }
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fetchHouses("")
-
-        searchBar.clearFocus()
-        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if(query != null) {
-                    fetchHouses(query)
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(query: String?): Boolean {
-                return true
-            }
-
-        })
-
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() : SearchFragment {
-            return SearchFragment()
         }
     }
 

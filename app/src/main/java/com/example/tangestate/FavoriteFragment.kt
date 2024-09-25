@@ -13,7 +13,6 @@ class FavoriteFragment : Fragment() {
     private lateinit var favoriteHousesAdapter : FavoriteHousesAdapter
     private lateinit var favoriteHousesRv : RecyclerView
 
-    //private val favoriteHousesItems : MutableList<House> = mutableListOf()
     private lateinit var sharedViewModel : SharedViewModel
 
 
@@ -23,7 +22,7 @@ class FavoriteFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
 
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         val layoutManager = LinearLayoutManager(context)
         favoriteHousesRv = view.findViewById(R.id.favorite_houses_rv)
@@ -37,6 +36,11 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        favoriteHousesAdapter.notifyDataSetChanged()
     }
 
     companion object {

@@ -11,9 +11,10 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.w3c.dom.Text
 
-class SearchHousesAdapter (private val context: Context, private val houses : List<House>, private val viewModel : SharedViewModel) : RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
+class SearchHousesAdapter (private val context: Context, private val houses : List<House>, private val viewModel : SharedViewModel) :
+    RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.house_item, parent, false)
         return ViewHolder(view)
@@ -60,18 +61,16 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
 
             likeButton.setOnClickListener {
                 viewModel.favoriteHouseItems.add(house)
-                // add house to favorite fragment
-                // need to pertain data and transfer it to fragment
             }
         }
 
         override fun onClick(v : View?) {
             // Get selected house
-            // val house = houses[absoluteAdapterPosition]
+            val house = houses[adapterPosition]
 
             // Navigate to Details screen and pass selected house
             val intent = Intent(context, HouseDetailsActivity::class.java)
-            // intent.putExtra("HOUSE_EXTRA", house) has to be serialization
+            intent.putExtra("HOUSE_EXTRA", house)
             context.startActivity(intent)
         }
 
