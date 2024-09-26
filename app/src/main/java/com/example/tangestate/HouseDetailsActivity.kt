@@ -1,12 +1,23 @@
 package com.example.tangestate
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.codepath.asynchttpclient.AsyncHttpClient
+import com.codepath.asynchttpclient.RequestHeaders
+import com.codepath.asynchttpclient.RequestParams
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import okhttp3.Headers
+import org.json.JSONException
+
+private const val TAG = "HouseDetailsActivity"
+private const val ACRES_TO_SQFT = 43560
+private const val API_KEY = BuildConfig.API_KEY
 
 class HouseDetailsActivity : AppCompatActivity() {
     private lateinit var housePrice : TextView
@@ -25,6 +36,8 @@ class HouseDetailsActivity : AppCompatActivity() {
 
     private lateinit var sharedViewModel : SharedViewModel
 
+    private lateinit var house : House
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house_details)
@@ -32,6 +45,8 @@ class HouseDetailsActivity : AppCompatActivity() {
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         setupHouseDetails()
+        house = intent.getSerializableExtra("HOUSE_EXTRA") as House
+        fetchHouseDetails()
         displayHouseDetails()
 
     }
@@ -53,15 +68,66 @@ class HouseDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun displayHouseDetails() {
-        val house = intent.getSerializableExtra("HOUSE_EXTRA") as House
+    private fun fetchHouseDetails() {
+        val client = AsyncHttpClient()
+        var params = RequestParams()
+        var headers = RequestHeaders()
+        //params["X-RapidAPI-Key"] = API_KEY
+        headers["x-rapidapi-key"] = API_KEY
+        headers["x-rapidapi-host"] = "zillow-com1.p.rapidapi.com"
 
-        housePrice.text = house.housePrice.toString()
-        houseBeds.text = house.houseBeds.toString()
-        houseBaths.text = house.houseBaths.toString()
-        houseSqft.text = house.houseSqft.toString()
-        houseStatus.text = house.houseStatus
-//        houseAddress.text = "${house.houseAddress}, ${house.houseCity}, ${house.houseState} ${house.houseZipcode}"
+        params["zpid"] = house.houseId.toString()
+
+        var clientUrl = "https://zillow-com1.p.rapidapi.com/property"
+
+        client.get(clientUrl, headers, params, object: JsonHttpResponseHandler()
+        {
+            override fun onFailure(
+                statusCode: Int,
+                headers: Headers?,
+                response: String?,
+                throwable: Throwable?
+            ) {
+                Log.e(TAG, "onFailure $response")
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
+                Log.i(TAG, "onSuccess: JSON properties data $json")
+
+                try {
+                    val parsedJsonHouse = createJson().decodeFromString(
+                        House.serializer(),
+                        json.jsonObject.toString()
+                    )
+                    house = parsedJsonHouse
+
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Exception: $e")
+                }
+            }
+        })
+    }
+
+    private fun displayHouseDetails() {
+
+        housePrice.text = "$" + house.housePrice.toString()
+        houseBaths.text = house.houseBaths.toString() + " ba | "
+        houseBeds.text = house.houseBeds.toString() + " bds | "
+
+        houseAddress.text = house.houseAddress
+        houseStatus.text = house.houseStatus?.replace("_", " ")
+
+        if(house.houseAreaUnit == "sqft") {
+            houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+        }
+        else {
+            houseSqft.text = (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+        }
+
+        Glide.with(this)
+            .load(house.houseImageUrl)
+            .centerCrop()
+            .into(houseImage)
 //        listingAgent.text = house.agentName
 //        listingCompany.text = house.companyName
 //        houseSummary.text = house.houseDescription
@@ -77,14 +143,14 @@ class HouseDetailsActivity : AppCompatActivity() {
 
         likeButton.setOnClickListener {
             if(sharedViewModel.likeStatus) {
-                likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
+                likeButton.background.clearColorFilter()
                 sharedViewModel.likeStatus = false
                 if(sharedViewModel.favoriteHouseItems.isNotEmpty()) {
                     sharedViewModel.favoriteHouseItems.remove(house)
                 }
             }
             else {
-                likeButton.setBackgroundResource(R.drawable.baseline_favorite_red_24)
+                likeButton.setBackgroundResource(R.color.lightRed)
                 sharedViewModel.likeStatus = true
                 sharedViewModel.favoriteHouseItems.add(house)
             }

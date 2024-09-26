@@ -1,236 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/house_details_image"
-            android:layout_width="380dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            tools:src="@drawable/brightness_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/house_details_price_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            tools:text="$500,000"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@id/house_details_image"
-            app:layout_constraintStart_toStartOf="@id/house_details_image" />
-
-        <TextView
-            android:id="@+id/house_details_bed_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="4 bds |"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@id/house_details_price_textview"
-            app:layout_constraintTop_toBottomOf="@id/house_details_price_textview" />
-
-        <TextView
-            android:id="@+id/house_details_bath_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            tools:text="2.5 ba |"
-            android:textSize="18sp"
-            android:layout_marginHorizontal="5dp"
-            app:layout_constraintStart_toEndOf="@id/house_details_bed_textview"
-            app:layout_constraintTop_toTopOf="@id/house_details_bed_textview" />
-
-        <TextView
-            android:id="@+id/house_details_sqft_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            tools:text="1500 sqft"
-            android:textSize="18sp"
-            android:layout_marginHorizontal="5dp"
-            app:layout_constraintStart_toEndOf="@id/house_details_bath_textview"
-            app:layout_constraintTop_toTopOf="@id/house_details_bed_textview" />
-
-        <TextView
-            android:id="@+id/house_details_status_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
-            tools:text="FOR SALE"
-            app:layout_constraintTop_toTopOf="@id/house_details_price_textview"
-            app:layout_constraintEnd_toEndOf="@id/house_details_image"/>
-
-        <TextView
-            android:id="@+id/house_details_address_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1550 Fraser Dr, Sunnyvale, CA"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/house_details_bed_textview"
-            app:layout_constraintStart_toStartOf="@id/house_details_bed_textview" />
-
-        <ImageButton
-            android:id="@+id/house_details_liked_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/baseline_favorite_red_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.937"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.374" />
-
-        <TextView
-            android:id="@+id/house_listing_agent_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:text="Listing Agent: Tyler Smith"
-            app:layout_constraintTop_toBottomOf="@id/house_details_address_textview"
-            app:layout_constraintEnd_toEndOf="@id/house_details_status_textview"/>
-
-        <TextView
-            android:id="@+id/house_listing_company_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:layout_marginVertical="5dp"
-            tools:text="Company: Compass"
-            app:layout_constraintEnd_toEndOf="@id/house_listing_agent_textview"
-            app:layout_constraintTop_toBottomOf="@id/house_listing_agent_textview"/>
-
-<!--        <TextView-->
-<!--            android:id="@+id/house_listing_agent_number_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            tools:text="Number: (408)482-8502"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/house_listing_agent_textview"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_listing_company_textview"/>-->
-
-
-        <TextView
-            android:id="@+id/house_summary_textview"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            tools:text="Description: This super great home..."
-            app:layout_constraintTop_toBottomOf="@id/house_listing_company_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/house_facts_title_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            tools:text="At A Glance Facts:"
-            app:layout_constraintTop_toBottomOf="@id/house_summary_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/house_details_image"
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/brightness_icon" />
 
-        <TextView
-            android:id="@+id/house_facts_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            tools:text="Type: Residential"
-            app:layout_constraintTop_toBottomOf="@id/house_facts_title_textview"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/house_details_price_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/house_details_image"
+                app:layout_constraintTop_toBottomOf="@id/house_details_image"
+                tools:text="$500,000" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/house_fact_year_built_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:text="Year Built: Residential"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_type_textview"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+            <TextView
+                android:id="@+id/house_details_bed_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/house_details_price_textview"
+                app:layout_constraintTop_toBottomOf="@id/house_details_price_textview"
+                tools:text="4 bds |" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/house_fact_heating_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:text="Heating: Central"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_year_built_textview"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+            <TextView
+                android:id="@+id/house_details_bath_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/house_details_bed_textview"
+                app:layout_constraintTop_toTopOf="@id/house_details_bed_textview"
+                tools:text="2.5 ba |" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/house_fact_cooling_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:text="Cooling: Central Air"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_heating_textview"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+            <TextView
+                android:id="@+id/house_details_sqft_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/house_details_bath_textview"
+                app:layout_constraintTop_toTopOf="@id/house_details_bed_textview"
+                tools:text="1500 sqft" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/house_fact_lot_size_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:text="Lot: 5500 sqft"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_cooling_textview"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
-<!--        <TextView-->
-<!--            android:id="@+id/house_fact_parking_spaces_textview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="5dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:text="Parking: 2 spaces"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_lot_size_textview"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+            <TextView
+                android:id="@+id/house_details_status_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/house_details_image"
+                app:layout_constraintTop_toTopOf="@id/house_details_price_textview"
+                tools:text="FOR SALE" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/house_details_address_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/house_details_bed_textview"
+                app:layout_constraintTop_toBottomOf="@id/house_details_bed_textview"
+                tools:text="1550 Fraser Dr, Sunnyvale, CA" />
+
+            <ImageButton
+                android:id="@+id/house_details_liked_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/baseline_favorite_blank_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.937"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.374" />
+
+            <TextView
+                android:id="@+id/house_listing_agent_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/house_details_status_textview"
+                app:layout_constraintTop_toBottomOf="@id/house_details_address_textview"
+                tools:text="Listing Agent: Tyler Smith" />
+
+            <TextView
+                android:id="@+id/house_listing_company_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/house_listing_agent_textview"
+                app:layout_constraintTop_toBottomOf="@id/house_listing_agent_textview"
+                tools:text="Company: Compass" />
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/house_listing_agent_number_textview"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:textSize="20sp"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:layout_marginVertical="5dp"-->
+            <!--            tools:text="Number: (408)482-8502"-->
+            <!--            app:layout_constraintEnd_toEndOf="@id/house_listing_agent_textview"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/house_listing_company_textview"/>-->
+
+
+            <TextView
+                android:id="@+id/house_summary_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/house_listing_company_textview"
+                tools:text="Description: This super great home..." />
+
+            <TextView
+                android:id="@+id/house_facts_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/house_summary_textview"
+                tools:text="At A Glance Facts:" />
+
+            <TextView
+                android:id="@+id/house_facts_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/house_facts_title_textview"
+                tools:text="Type: Residential" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/house_fact_year_built_textview"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginVertical="5dp"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            tools:text="Year Built: Residential"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_type_textview"-->
+    <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/house_fact_heating_textview"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginVertical="5dp"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            tools:text="Heating: Central"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_year_built_textview"-->
+    <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/house_fact_cooling_textview"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginVertical="5dp"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            tools:text="Cooling: Central Air"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_heating_textview"-->
+    <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/house_fact_lot_size_textview"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginVertical="5dp"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            tools:text="Lot: 5500 sqft"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_cooling_textview"-->
+    <!--            app:layout_constraintStart_toStartOf="parent" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/house_fact_parking_spaces_textview"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginVertical="5dp"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            tools:text="Parking: 2 spaces"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_lot_size_textview"-->
+    <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
 </ScrollView>

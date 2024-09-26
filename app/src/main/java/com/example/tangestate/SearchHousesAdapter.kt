@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+
+private const val ACRES_TO_SQFT = 43560
 
 class SearchHousesAdapter (private val context: Context, private val houses : List<House>, private val viewModel : SharedViewModel) :
     RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
@@ -29,8 +32,7 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
     override fun getItemCount() = houses.size
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val housePrice = itemView.findViewById<TextView>(R.id.house_price_textview)
         private val houseBeds = itemView.findViewById<TextView>(R.id.house_beds_textview)
@@ -40,48 +42,49 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
         private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
         private val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
+        private val cardView = itemView.findViewById<CardView>(R.id.house_card_view)
 
-        init {
-            itemView.setOnClickListener(this)
-        }
 
         fun bind(house: House) {
             housePrice.text = "$" + house.housePrice.toString()
-            houseBaths.text = house.houseBaths.toString() + " ba"
-            houseBeds.text = house.houseBeds.toString() + " bds"
-            houseSqft.text = house.houseSqft.toString() + " sqft"
+            houseBaths.text = house.houseBaths.toString() + " ba | "
+            houseBeds.text = house.houseBeds.toString() + " bds | "
+
             houseAddress.text = house.houseAddress
             houseStatus.text = house.houseStatus?.replace("_", " ")
 
+            if(house.houseAreaUnit == "sqft") {
+                houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+            }
+            else {
+                houseSqft.text = (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+            }
+
             Glide.with(itemView)
                 .load(house.houseImageUrl)
-                .centerInside()
+                .centerCrop()
                 .into(houseImage)
 
             likeButton.setOnClickListener {
                 if(viewModel.likeStatus) {
-                    likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
+                    likeButton.background.clearColorFilter()
                     viewModel.likeStatus = false
                     if(viewModel.favoriteHouseItems.isNotEmpty()) {
                         viewModel.favoriteHouseItems.remove(house)
                     }
                 }
                 else {
-                    likeButton.setBackgroundResource(R.drawable.baseline_favorite_red_24)
+                    likeButton.setBackgroundResource(R.color.lightRed)
                     viewModel.likeStatus = true
                     viewModel.favoriteHouseItems.add(house)
                 }
             }
-        }
 
-        override fun onClick(v : View?) {
-            // Get selected house
-            val house = houses[adapterPosition]
-
-            // Navigate to Details screen and pass selected house
-            val intent = Intent(context, HouseDetailsActivity::class.java)
-            intent.putExtra("HOUSE_EXTRA", house)
-            context.startActivity(intent)
+            cardView.setOnClickListener {
+                val intent = Intent(context, HouseDetailsActivity::class.java)
+                intent.putExtra("HOUSE_EXTRA", house)
+                context.startActivity(intent)
+            }
         }
 
     }

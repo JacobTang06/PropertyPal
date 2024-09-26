@@ -18,13 +18,15 @@ data class House (
     @SerialName("imgSrc")
     val houseImageUrl : String?,
     @SerialName("price")
-    val housePrice : Float?,
+    val housePrice : Int?,
     @SerialName("bedrooms")
     val houseBeds : Int?,
     @SerialName("bathrooms")
     val houseBaths : Float?,
     @SerialName("lotAreaValue")
     val houseSqft : Float?,
+    @SerialName("lotAreaUnit")
+    val houseAreaUnit : String?,
     @SerialName("listingStatus")
     val houseStatus : String?,
     @SerialName("address")
