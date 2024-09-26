@@ -2,6 +2,7 @@ package com.example.tangestate
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,14 +46,12 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         }
 
         fun bind(house: House) {
-            housePrice.text = house.housePrice.toString()
-            houseBaths.text = house.houseBaths.toString()
-            houseBeds.text = house.houseBeds.toString()
-            houseSqft.text = house.houseSqft.toString()
-            houseAddress.text = house.houseAddress + ", " +
-                    house.houseCity + ", " +
-                    house.houseState + house.houseZipcode
-            houseStatus.text = house.houseStatus
+            housePrice.text = "$" + house.housePrice.toString()
+            houseBaths.text = house.houseBaths.toString() + " ba"
+            houseBeds.text = house.houseBeds.toString() + " bds"
+            houseSqft.text = house.houseSqft.toString() + " sqft"
+            houseAddress.text = house.houseAddress
+            houseStatus.text = house.houseStatus?.replace("_", " ")
 
             Glide.with(itemView)
                 .load(house.houseImageUrl)
@@ -60,7 +59,18 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 .into(houseImage)
 
             likeButton.setOnClickListener {
-                viewModel.favoriteHouseItems.add(house)
+                if(viewModel.likeStatus) {
+                    likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
+                    viewModel.likeStatus = false
+                    if(viewModel.favoriteHouseItems.isNotEmpty()) {
+                        viewModel.favoriteHouseItems.remove(house)
+                    }
+                }
+                else {
+                    likeButton.setBackgroundResource(R.drawable.baseline_favorite_red_24)
+                    viewModel.likeStatus = true
+                    viewModel.favoriteHouseItems.add(house)
+                }
             }
         }
 

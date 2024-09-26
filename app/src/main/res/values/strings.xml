@@ -5,10 +5,10 @@
     <string-array name="building_type_items">
         <item>Houses</item>
         <item>Apartments</item>
-        <item>Townhouses</item>
+        <item>Townhomes</item>
     </string-array>
     <string-array name="home_status_items">
-        <item>Sold</item>
-        <item>For Sale</item>
+        <item>RecentlySold</item>
+        <item>ForSale</item>
     </string-array>
 </resources>

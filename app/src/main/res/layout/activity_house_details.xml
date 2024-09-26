@@ -91,13 +91,13 @@
             android:id="@+id/house_details_liked_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/love_button"
+            android:background="@drawable/baseline_favorite_red_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.937"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.271" />
+            app:layout_constraintVertical_bias="0.374" />
 
         <TextView
             android:id="@+id/house_listing_agent_textview"
@@ -219,18 +219,17 @@
 <!--            tools:text="Lot: 5500 sqft"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/house_fact_cooling_textview"-->
 <!--            app:layout_constraintStart_toStartOf="parent" />-->
-
-        <TextView
-            android:id="@+id/house_fact_parking_spaces_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            tools:text="Parking: 2 spaces"
-            app:layout_constraintTop_toBottomOf="@id/house_fact_lot_size_textview"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/house_fact_parking_spaces_textview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginVertical="5dp"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            tools:text="Parking: 2 spaces"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/house_fact_lot_size_textview"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

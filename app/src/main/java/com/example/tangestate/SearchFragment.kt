@@ -11,16 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
+import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.google.android.material.search.SearchBar
-import com.google.gson.reflect.TypeToken
 import okhttp3.Headers
-import org.json.JSONObject
-import com.google.gson.Gson
+import org.json.JSONException
 
 private const val TAG = "SearchFragment"
-private const val API_KEY = "48138f1df4mshc65c2a624afd2dep14c5f9jsnc8d3268a92de"
+private const val API_KEY = BuildConfig.API_KEY
 
 class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var searchBar : SearchView
@@ -42,8 +41,9 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var poolStatus : CheckBox
     private lateinit var housesAdapter : SearchHousesAdapter
     private lateinit var housesRv : RecyclerView
-    private var houseItems = listOf<House>()
+    private var houseItems = mutableListOf<House>()
     private lateinit var sharedViewModel : SharedViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,8 +54,14 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         setupFilters(view)
-        setupRecyclerView(view)
         filterButtonClicked(view)
+
+        val layoutManager = LinearLayoutManager(context)
+        housesRv = view.findViewById(R.id.browse_houses_rv)
+        housesRv.layoutManager = layoutManager
+        housesRv.setHasFixedSize(true)
+        housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel)
+        housesRv.adapter = housesAdapter
 
         return view
     }
@@ -69,6 +75,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
+                    houseItems.clear()
                     fetchHouses(query)
                 }
                 return false
@@ -105,15 +112,9 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         houseStatus = view.findViewById(R.id.home_status_spinner)
         garageStatus = view.findViewById(R.id.hasGarage_checkbox)
         poolStatus = view.findViewById(R.id.hasPool_checkbox)
-    }
 
-    private fun setupRecyclerView(view: View) {
-        val layoutManager = LinearLayoutManager(context)
-        housesRv = view.findViewById(R.id.browse_houses_rv)
-        housesRv.layoutManager = layoutManager
-        housesRv.setHasFixedSize(true)
-        housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel)
-        housesRv.adapter = housesAdapter
+        houseTypeText = ""
+        houseStatusText = ""
     }
 
     private fun filterButtonClicked(view: View) {
@@ -177,14 +178,26 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun fetchHouses(searchText : String) {
         val client = AsyncHttpClient()
         var params = RequestParams()
+        var headers = RequestHeaders()
         //params["X-RapidAPI-Key"] = API_KEY
+        headers["x-rapidapi-key"] = API_KEY
+        headers["x-rapidapi-host"] = "zillow-com1.p.rapidapi.com"
 
-        lateinit var clientUrl : String
+        var clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
 
-        if(!(minPrice.text.isNullOrBlank() and maxPrice.text.isNullOrBlank() and
-                    maxBeds.text.isNullOrBlank() and minBeds.text.isNullOrBlank() and
-                    maxBaths.text.isNullOrBlank() and minBaths.text.isNullOrBlank() and
-                    maxSqft.text.isNullOrBlank() and minSqft.text.isNullOrBlank() and searchText.isNullOrBlank())) {
+        params["page"] = "1"
+        if(searchText != "") {
+            params["location"] = searchText
+        }
+        else {
+            params["location"] = "Cupertino, CA"
+        }
+
+        if(!(minPrice.text.toString().isNullOrBlank() and maxPrice.text.toString().isNullOrBlank() and
+                    maxBeds.text.toString().isNullOrBlank() and minBeds.text.toString().isNullOrBlank() and
+                    maxBaths.text.toString().isNullOrBlank() and minBaths.text.toString().isNullOrBlank() and
+                    maxSqft.text.toString().isNullOrBlank() and minSqft.text.toString().isNullOrBlank())) {
+
             params["location"] = searchText
             params["home_type"] = houseTypeText
             params["status_type"] = houseStatusText
@@ -203,14 +216,10 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             if(poolStatus.isChecked) {
                 params["hasPool"] = "True"
             }
-
-            clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch?api_key={API_KEY}"
-        }
-        else {
-            clientUrl = "https://zillow-com1.p.rapidapi.com/property?api_key={API_KEY}"
         }
 
-        client.get(clientUrl, object: JsonHttpResponseHandler(){
+        client.get(clientUrl, headers, params, object: JsonHttpResponseHandler()
+        {
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
@@ -221,19 +230,22 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
-                Log.i(TAG, "onSuccess: JSON moovies data $json")
+                Log.i(TAG, "onSuccess: JSON properties data $json")
 
                 // properties -> props -> items -> properties
 
-                val resultsJSON = json.jsonObject.get("results") as JSONObject
-                val propertiesJSON = resultsJSON.get("properties").toString()
-
-                val gson = Gson()
-
-                val arrayTutorialType = object : TypeToken<List<House>>() {}.type
-                houseItems = gson.fromJson(propertiesJSON, arrayTutorialType)
-
-                housesAdapter.notifyDataSetChanged()
+                try {
+                    val parsedJson = createJson().decodeFromString(
+                        BaseResponse.serializer(),
+                        json.jsonObject.toString()
+                    )
+                    parsedJson.properties?.let { list ->
+                        houseItems.addAll(list)
+                        housesAdapter.notifyDataSetChanged()
+                    }
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Exception: $e")
+                }
             }
         })
 

@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
+    android:layout_width="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/house_item_background"
+    android:layout_margin="10dp"
     android:layout_height="wrap_content">
+<!--    android:background="@drawable/house_item_background"-->
     
     <ImageView
         android:id="@+id/house_image"
@@ -84,7 +85,7 @@
         android:id="@+id/liked_houses_button"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/love_button"
+        android:src="@drawable/baseline_favorite_red_24"
         android:scaleType="centerInside"
         android:background="@android:color/transparent"
         android:adjustViewBounds="true"

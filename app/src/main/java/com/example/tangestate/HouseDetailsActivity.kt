@@ -5,6 +5,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 
 class HouseDetailsActivity : AppCompatActivity() {
@@ -22,12 +23,17 @@ class HouseDetailsActivity : AppCompatActivity() {
     private lateinit var houseSummary : TextView
     private lateinit var houseFacts : TextView
 
+    private lateinit var sharedViewModel : SharedViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house_details)
 
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+
         setupHouseDetails()
         displayHouseDetails()
+
     }
 
     private fun setupHouseDetails() {
@@ -55,18 +61,34 @@ class HouseDetailsActivity : AppCompatActivity() {
         houseBaths.text = house.houseBaths.toString()
         houseSqft.text = house.houseSqft.toString()
         houseStatus.text = house.houseStatus
-        houseAddress.text = "${house.houseAddress}, ${house.houseCity}, ${house.houseState} ${house.houseZipcode}"
-        listingAgent.text = house.agentName
-        listingCompany.text = house.companyName
-        houseSummary.text = house.houseDescription
+//        houseAddress.text = "${house.houseAddress}, ${house.houseCity}, ${house.houseState} ${house.houseZipcode}"
+//        listingAgent.text = house.agentName
+//        listingCompany.text = house.companyName
+//        houseSummary.text = house.houseDescription
 
-        for(fact in house.facts!!) {
-            houseFacts.text = fact.factLabel + ": " + fact.factValue + "\n"
-        }
+//        for(fact in house.facts!!) {
+//            houseFacts.text = fact.factLabel + ": " + fact.factValue + "\n"
+//        }
 
         Glide.with(this@HouseDetailsActivity)
             .load(house.houseImageUrl)
             .centerInside()
             .into(houseImage)
+
+        likeButton.setOnClickListener {
+            if(sharedViewModel.likeStatus) {
+                likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
+                sharedViewModel.likeStatus = false
+                if(sharedViewModel.favoriteHouseItems.isNotEmpty()) {
+                    sharedViewModel.favoriteHouseItems.remove(house)
+                }
+            }
+            else {
+                likeButton.setBackgroundResource(R.drawable.baseline_favorite_red_24)
+                sharedViewModel.likeStatus = true
+                sharedViewModel.favoriteHouseItems.add(house)
+            }
+        }
+
     }
 }

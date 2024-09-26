@@ -48,9 +48,7 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
             houseBaths.text = house.houseBaths.toString()
             houseBeds.text = house.houseBeds.toString()
             houseSqft.text = house.houseSqft.toString()
-            houseAddress.text = house.houseAddress + ", " +
-                    house.houseCity + ", " +
-                    house.houseState + house.houseZipcode
+            houseAddress.text = house.houseAddress
             houseStatus.text = house.houseStatus
 
             Glide.with(itemView)
@@ -59,6 +57,7 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
                 .into(houseImage)
 
             likeButton.setOnClickListener {
+                likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
                 // dislike house
                 // need to pertain data and delete it from list
                 houses.remove(house)
@@ -67,11 +66,11 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
 
         override fun onClick(v : View?) {
             // Get selected house
-            // val house = houses[absoluteAdapterPosition]
+            val house = houses[adapterPosition]
 
             // Navigate to Details screen and pass selected house
             val intent = Intent(context, HouseDetailsActivity::class.java)
-            // intent.putExtra("HOUSE_EXTRA", house) has to be serialization
+            intent.putExtra("HOUSE_EXTRA", house)
             context.startActivity(intent)
         }
 
