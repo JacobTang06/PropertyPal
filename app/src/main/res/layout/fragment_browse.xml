@@ -1,172 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/browse_screen_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/browse_screen_layout"
     tools:context=".SearchFragment">
 
     <SearchView
         android:id="@+id/browse_screen_searchbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/searchview_background"
         android:iconifiedByDefault="false"
         android:queryHint="Search address, city, zipcode..."
-        android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/lineSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="#c0c0c0"
+        app:layout_constraintTop_toBottomOf="@id/browse_screen_searchbar"/>
 
     <TextView
         android:id="@+id/filter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:clickable="true"
         android:text="SHOW FILTERS"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:clickable="true"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/browse_screen_searchbar"/>
-
-    <Spinner
-        android:id="@+id/home_status_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineSeparator"
+        app:layout_constraintBottom_toTopOf="@id/lineSeparator2"/>
+
+    <View
+        android:id="@+id/lineSeparator2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="#c0c0c0"
         app:layout_constraintTop_toBottomOf="@id/filter_text"/>
 
-    <Spinner
-        android:id="@+id/building_type_spinner"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/filterCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:layout_marginStart="40dp"
-        app:layout_constraintTop_toBottomOf="@id/filter_text"
-        app:layout_constraintStart_toEndOf="@id/home_status_spinner"/>
-
-    <EditText
-        android:id="@+id/minPrice_editText"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:hint="Min Price"
-        android:textSize="15dp"
-        android:inputType="numberDecimal"
-        android:layout_marginVertical="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="40dp"
-        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_status_spinner"/>
+        app:layout_constraintTop_toBottomOf="@id/lineSeparator2">
 
-    <EditText
-        android:id="@+id/maxPrice_editText"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:layout_marginHorizontal="20dp"
-        android:hint="Max Price"
-        android:textSize="15dp"
-        android:inputType="numberDecimal"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@id/minPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/home_status_spinner"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/minBeds_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Min Beds"
-        android:textSize="15dp"
-        android:inputType="number"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/minPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
+            <Spinner
+                android:id="@+id/home_status_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="75dp" />
 
-    <EditText
-        android:id="@+id/maxBeds_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Max Beds"
-        android:textSize="15dp"
-        android:inputType="number"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/minPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
+            <Spinner
+                android:id="@+id/building_type_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_toRightOf="@id/home_status_spinner" />
 
-    <EditText
-        android:id="@+id/minBaths_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Min Baths"
-        android:textSize="15dp"
-        android:inputType="numberDecimal"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/maxPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
+            <EditText
+                android:id="@+id/minPrice_editText"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_below="@id/home_status_spinner"
+                android:hint="Min Price"
+                android:inputType="numberDecimal"
+                android:textSize="15dp" />
 
-    <EditText
-        android:id="@+id/maxBaths_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Max Baths"
-        android:textSize="15dp"
-        android:inputType="numberDecimal"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/maxPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/minPrice_editText"/>
+            <EditText
+                android:id="@+id/maxPrice_editText"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="15dp"
+                android:hint="Max Price"
+                android:inputType="numberDecimal"
+                android:textSize="15dp"
+                android:layout_below="@id/home_status_spinner"
+                android:layout_toRightOf="@id/minPrice_editText" />
 
-    <EditText
-        android:id="@+id/minSqft_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Min Sqft"
-        android:textSize="15sp"
-        android:inputType="number"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/minPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/minBeds_editText" />
+            <EditText
+                android:id="@+id/minBeds_editText"
+                android:layout_width="90dp"
+                android:layout_marginStart="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:hint="Min Beds"
+                android:inputType="number"
+                android:textSize="15dp"
+                android:layout_below="@id/minPrice_editText" />
 
-    <EditText
-        android:id="@+id/maxSqft_editText"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:hint="Max Sqft"
-        android:textSize="15sp"
-        android:inputType="number"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/minPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/maxBeds_editText" />
+            <EditText
+                android:id="@+id/maxBeds_editText"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:hint="Max Beds"
+                android:inputType="number"
+                android:textSize="15dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@id/minBeds_editText"
+                android:layout_below="@id/maxPrice_editText"/>
 
-    <CheckBox
-        android:id="@+id/hasGarage_checkbox"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:text="Has Garage"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/maxPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/maxBeds_editText"/>
+            <EditText
+                android:id="@+id/minBaths_editText"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:hint="Min Baths"
+                android:layout_marginVertical="5dp"
+                android:inputType="numberDecimal"
+                android:textSize="15dp"
+                android:layout_alignStart="@id/maxPrice_editText"
+                android:layout_below="@id/maxPrice_editText"/>
 
-    <CheckBox
-        android:id="@+id/hasPool_checkbox"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
-        android:text="Has Pool"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/maxPrice_editText"
-        app:layout_constraintTop_toBottomOf="@id/maxBeds_editText" />
+            <EditText
+                android:id="@+id/maxBaths_editText"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:hint="Max Baths"
+                android:layout_marginLeft="5dp"
+                android:layout_marginVertical="5dp"
+                android:inputType="numberDecimal"
+                android:textSize="15dp"
+                android:layout_toRightOf="@id/minBaths_editText"
+                android:layout_below="@id/maxPrice_editText" />
+
+            <EditText
+                android:id="@+id/minSqft_editText"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:hint="Min Sqft"
+                android:inputType="number"
+                android:textSize="15sp"
+                android:layout_marginVertical="10dp"
+                android:layout_below="@id/minBeds_editText"
+                android:layout_alignStart="@id/minBeds_editText" />
+
+            <EditText
+                android:id="@+id/maxSqft_editText"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:hint="Max Sqft"
+                android:inputType="number"
+                android:textSize="15sp"
+                android:layout_alignBottom="@id/minSqft_editText"
+                android:layout_alignStart="@id/maxBeds_editText" />
+
+            <CheckBox
+                android:id="@+id/hasGarage_checkbox"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="Has Garage"
+                android:layout_alignBottom="@id/minSqft_editText"
+                android:layout_alignStart="@id/minBaths_editText"/>
+
+            <CheckBox
+                android:id="@+id/hasPool_checkbox"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="Has Pool"
+                android:layout_alignBottom="@id/hasGarage_checkbox"
+                android:layout_alignStart="@id/maxBaths_editText"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/browse_houses_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/filter_text" />
+        app:layout_constraintTop_toBottomOf="@id/lineSeparator2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

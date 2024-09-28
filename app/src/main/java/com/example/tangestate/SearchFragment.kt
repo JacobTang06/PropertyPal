@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ private const val API_KEY = BuildConfig.API_KEY
 class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var searchBar : SearchView
     private lateinit var filterText : TextView
+    private lateinit var filterCardView : CardView
 
     private lateinit var minPrice : EditText
     private lateinit var maxPrice : EditText
@@ -99,6 +101,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setupFilters(view: View) {
         searchBar = view.findViewById(R.id.browse_screen_searchbar)
         filterText = view.findViewById(R.id.filter_text)
+        filterCardView = view.findViewById(R.id.filterCardView)
 
         minPrice = view.findViewById(R.id.minPrice_editText)
         maxPrice = view.findViewById(R.id.maxPrice_editText)
@@ -121,19 +124,8 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         filterText.setOnClickListener {
             if(filterText.text == "SHOW FILTERS") {
                 filterText.text = "HIDE FILTERS"
-
-                minPrice.visibility = View.VISIBLE
-                maxPrice.visibility = View.VISIBLE
-                minBeds.visibility = View.VISIBLE
-                maxBeds.visibility = View.VISIBLE
-                minBaths.visibility = View.VISIBLE
-                maxBaths.visibility = View.VISIBLE
-                minSqft.visibility = View.VISIBLE
-                maxSqft.visibility = View.VISIBLE
-                houseStatus.visibility = View.VISIBLE
-                houseType.visibility = View.VISIBLE
-                garageStatus.visibility = View.VISIBLE
-                poolStatus.visibility = View.VISIBLE
+                filterCardView.visibility = View.VISIBLE
+                filterCardView.bringToFront()
 
                 ArrayAdapter.createFromResource(
                     view.context,
@@ -157,20 +149,8 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
             else {
                 filterText.text = "SHOW FILTERS"
+                filterCardView.visibility = View.INVISIBLE
 
-                minPrice.visibility = View.INVISIBLE
-                maxPrice.visibility = View.INVISIBLE
-                maxPrice.visibility = View.INVISIBLE
-                minBeds.visibility = View.INVISIBLE
-                maxBeds.visibility = View.INVISIBLE
-                minBaths.visibility = View.INVISIBLE
-                maxBaths.visibility = View.INVISIBLE
-                minSqft.visibility = View.INVISIBLE
-                maxSqft.visibility = View.INVISIBLE
-                houseStatus.visibility = View.INVISIBLE
-                houseType.visibility = View.INVISIBLE
-                garageStatus.visibility = View.INVISIBLE
-                poolStatus.visibility = View.INVISIBLE
             }
         }
     }
@@ -201,14 +181,14 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             params["location"] = searchText
             params["home_type"] = houseTypeText
             params["status_type"] = houseStatusText
-            params["minPrice"] = minPrice.text.toString()
-            params["maxPrice"] = maxPrice.text.toString()
-            params["bathsMin"] = minBaths.text.toString()
-            params["bathsMax"] = maxBaths.text.toString()
-            params["bedsMin"] = minBeds.text.toString()
-            params["bedsMax"] = maxBeds.text.toString()
-            params["sqftMin"] = minSqft.text.toString()
-            params["sqftMax"] = maxSqft.text.toString()
+            params["minPrice"] = minPrice.text.toString().toIntOrNull()?.toString() ?: "0"
+            params["maxPrice"] = maxPrice.text.toString().toIntOrNull()?.toString() ?: "100000000"
+            params["bathsMin"] = minBaths.text.toString().toFloatOrNull()?.toString() ?: "0.0"
+            params["bathsMax"] = maxBaths.text.toString().toFloatOrNull()?.toString() ?: "20.0"
+            params["bedsMin"] = minBeds.text.toString().toIntOrNull()?.toString() ?: "0"
+            params["bedsMax"] = maxBeds.text.toString().toIntOrNull()?.toString() ?: "20"
+            params["sqftMin"] = minSqft.text.toString().toFloatOrNull()?.toString() ?: "0.0"
+            params["sqftMax"] = maxSqft.text.toString().toFloatOrNull()?.toString() ?: "1000000.0"
 
             if(garageStatus.isChecked) {
                 params["hasGarage"] = "True"

@@ -15,6 +15,7 @@ data class BaseResponse (
 @Keep
 @Serializable
 data class House (
+    // For property extended search
     @SerialName("imgSrc")
     val houseImageUrl : String?,
     @SerialName("price")
@@ -35,24 +36,69 @@ data class House (
     val houseId : Int?
 ) : java.io.Serializable
 
-//    @SerialName("streetAddress")
-//    var houseAddress : String?,
-//    @SerialName("city")
-//    var houseCity : String?,
-//    @SerialName("zipcode")
-//    var houseZipcode : Integer?,
-//    @SerialName("state")
-//    var houseState : String?,
-//    @SerialName("atAGlanceFacts")
-//    var facts : List<AtAGlanceFacts>?,
-//    @SerialName("business_name")
-//    var companyName : String?,
-//    @SerialName("display_name")
-//    var agentName : String?,
-//    @SerialName("phone")
-//    var agentNumber : String?,
-//    @SerialName("description")
-//    var houseDescription : String?
+@Keep
+@Serializable
+data class HouseDetails (
+    // For property search
+    @SerialName("imgSrc")
+    val imageUrl : String?,
+    @SerialName("price")
+    val price : Int?,
+    @SerialName("bedrooms")
+    val beds : Int?,
+    @SerialName("bathrooms")
+    val baths : Float?,
+    @SerialName("livingAreaValue")
+    val sqft : Float?,
+    @SerialName("livingAreaUnits")
+    val sqftUnits : String?,
+    @SerialName("homeStatus")
+    val homeStatus : String?,
+    @SerialName("streetAddress")
+    val address : String?,
+    @SerialName("city")
+    val city : String?,
+    @SerialName("state")
+    val state : String?,
+    @SerialName("zipcode")
+    val zipcode : String?,
+    @SerialName("description")
+    var homeDescription : String?,
+    @SerialName("resoFacts")
+    var houseFacts : HouseFacts?,
+    @SerialName("listed_by")
+    var houseListingInfo : HouseListing?
+) : java.io.Serializable
+
+@Keep
+@Serializable
+data class HouseFacts (
+    @SerialName("atAGlanceFacts")
+    var facts : List<AtAGlanceFacts>?
+)
+
+@Keep
+@Serializable
+data class HouseListing (
+    @SerialName("business_name")
+    var companyName : String?,
+    @SerialName("display_name")
+    var agentName : String?,
+    @SerialName("phone")
+    var agentNumber : Number?
+)
+
+@Keep
+@Serializable
+data class Number (
+    // Access JSON data properly
+    @SerialName("prefix")
+    var prefix : String?,
+    @SerialName("areacode")
+    var areaCode : String?,
+    @SerialName("number")
+    var number : String?,
+)
 
 @Keep
 @Serializable

@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.text.DecimalFormat
 
 private const val ACRES_TO_SQFT = 43560
 
@@ -46,7 +47,8 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
 
 
         fun bind(house: House) {
-            housePrice.text = "$" + house.housePrice.toString()
+            val formattedPrice = "%,d".format(house.housePrice)
+            housePrice.text = "$$formattedPrice"
             houseBaths.text = house.houseBaths.toString() + " ba | "
             houseBeds.text = house.houseBeds.toString() + " bds | "
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
+private const val ACRES_TO_SQFT = 43560
 class FavoriteHousesAdapter(private val context: Context, private val houses : MutableList<House>) : RecyclerView.Adapter<FavoriteHousesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,16 +45,24 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
         }
 
         fun bind(house: House) {
-            housePrice.text = house.housePrice.toString()
-            houseBaths.text = house.houseBaths.toString()
-            houseBeds.text = house.houseBeds.toString()
-            houseSqft.text = house.houseSqft.toString()
+            val formattedPrice = "%,d".format(house.housePrice)
+            housePrice.text = "$$formattedPrice"
+            houseBaths.text = house.houseBaths.toString() + " ba | "
+            houseBeds.text = house.houseBeds.toString() + " bds | "
+
             houseAddress.text = house.houseAddress
-            houseStatus.text = house.houseStatus
+            houseStatus.text = house.houseStatus?.replace("_", " ")
+
+            if(house.houseAreaUnit == "sqft") {
+                houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+            }
+            else {
+                houseSqft.text = (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+            }
 
             Glide.with(itemView)
                 .load(house.houseImageUrl)
-                .centerInside()
+                .centerCrop()
                 .into(houseImage)
 
             likeButton.setOnClickListener {
