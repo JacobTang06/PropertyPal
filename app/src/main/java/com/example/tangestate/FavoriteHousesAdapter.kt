@@ -2,18 +2,23 @@ package com.example.tangestate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
 private const val ACRES_TO_SQFT = 43560
-class FavoriteHousesAdapter(private val context: Context, private val houses : MutableList<House>) : RecyclerView.Adapter<FavoriteHousesAdapter.ViewHolder>() {
+class FavoriteHousesAdapter(private val context: Context, private val houses : MutableList<House>, private val sharedViewModel: SharedViewModel) : RecyclerView.Adapter<FavoriteHousesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.house_item, parent, false)
@@ -28,8 +33,7 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
     override fun getItemCount() = houses.size
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
 
         private val housePrice = itemView.findViewById<TextView>(R.id.house_price_textview)
         private val houseBeds = itemView.findViewById<TextView>(R.id.house_beds_textview)
@@ -38,11 +42,9 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
         private val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
         private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
         private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
-        private val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
-
-        init {
-            itemView.setOnClickListener(this)
-        }
+        private val likeButton = itemView.findViewById<ImageView>(R.id.liked_houses_button)
+        private val likeButtonOutline = itemView.findViewById<ImageView>(R.id.liked_houses_button_outline)
+        private val cardView = itemView.findViewById<CardView>(R.id.house_card_view)
 
         fun bind(house: House) {
             val formattedPrice = "%,d".format(house.housePrice)
@@ -52,6 +54,9 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
 
             houseAddress.text = house.houseAddress
             houseStatus.text = house.houseStatus?.replace("_", " ")
+
+            likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
+            likeButton.setBackgroundColor(Color.TRANSPARENT)
 
             if(house.houseAreaUnit == "sqft") {
                 houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
@@ -65,24 +70,22 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
                 .centerCrop()
                 .into(houseImage)
 
-            likeButton.setOnClickListener {
-                likeButton.setBackgroundResource(R.drawable.baseline_favorite_blank_24)
-                // dislike house
-                // need to pertain data and delete it from list
-                houses.remove(house)
+            likeButtonOutline.setOnClickListener {
+                likeButtonOutline.clearColorFilter()
+                sharedViewModel.favoriteHouseItems[house] == false
+                houses.removeAt(adapterPosition)
+                notifyItemRemoved(adapterPosition)
+                notifyItemRangeChanged(adapterPosition, houses.size)
+                Log.d("House list size", houses.size.toString())
+            }
+
+            cardView.setOnClickListener {
+                // Navigate to Details screen and pass selected house
+                val intent = Intent(context, HouseDetailsActivity::class.java)
+                intent.putExtra("HOUSE_EXTRA", house)
+                context.startActivity(intent)
             }
         }
-
-        override fun onClick(v : View?) {
-            // Get selected house
-            val house = houses[adapterPosition]
-
-            // Navigate to Details screen and pass selected house
-            val intent = Intent(context, HouseDetailsActivity::class.java)
-            intent.putExtra("HOUSE_EXTRA", house)
-            context.startActivity(intent)
-        }
-
     }
 
 }

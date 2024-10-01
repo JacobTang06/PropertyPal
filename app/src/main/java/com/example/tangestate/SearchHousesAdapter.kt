@@ -2,6 +2,7 @@ package com.example.tangestate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -42,7 +44,8 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         private val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
         private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
         private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
-        private val likeButton = itemView.findViewById<ImageButton>(R.id.liked_houses_button)
+        private val likeButton = itemView.findViewById<ImageView>(R.id.liked_houses_button)
+        private val likeButtonOutline = itemView.findViewById<ImageView>(R.id.liked_houses_button_outline)
         private val cardView = itemView.findViewById<CardView>(R.id.house_card_view)
 
 
@@ -67,18 +70,22 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 .centerCrop()
                 .into(houseImage)
 
-            likeButton.setOnClickListener {
-                if(viewModel.likeStatus) {
-                    likeButton.background.clearColorFilter()
-                    viewModel.likeStatus = false
+            if(viewModel.favoriteHouseItems[house] == true) {
+                likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
+            }
+
+            likeButtonOutline.setOnClickListener {
+                if(viewModel.favoriteHouseItems[house] == true) {
+                    likeButtonOutline.clearColorFilter()
+                    viewModel.favoriteHouseItems[house] = false
                     if(viewModel.favoriteHouseItems.isNotEmpty()) {
                         viewModel.favoriteHouseItems.remove(house)
                     }
                 }
                 else {
-                    likeButton.setBackgroundResource(R.color.lightRed)
-                    viewModel.likeStatus = true
-                    viewModel.favoriteHouseItems.add(house)
+                    likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
+                    viewModel.favoriteHouseItems[house] = true
+                    Log.d("Entries: ", viewModel.favoriteHouseItems.size.toString())
                 }
             }
 

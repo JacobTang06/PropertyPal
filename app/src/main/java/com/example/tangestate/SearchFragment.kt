@@ -150,6 +150,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             else {
                 filterText.text = "SHOW FILTERS"
                 filterCardView.visibility = View.INVISIBLE
+                filterCardView.bringToFront()
 
             }
         }
@@ -212,8 +213,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON) {
                 Log.i(TAG, "onSuccess: JSON properties data $json")
 
-                // properties -> props -> items -> properties
-
+                // props -> properties
                 try {
                     val parsedJson = createJson().decodeFromString(
                         BaseResponse.serializer(),
@@ -223,13 +223,12 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         houseItems.addAll(list)
                         housesAdapter.notifyDataSetChanged()
                     }
+                    // sharedViewModel.zpidToHouses.addAll(houseItems)
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
                 }
             }
         })
-
-
     }
 
     override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, l: Long) {

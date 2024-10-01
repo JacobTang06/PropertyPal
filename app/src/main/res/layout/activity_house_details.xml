@@ -22,6 +22,34 @@
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             tools:src="@drawable/brightness_icon" />
+        
+        <ImageView
+            android:id="@+id/houseImage1"
+            android:layout_marginTop="5dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/house_details_image" />
+
+        <ImageView
+            android:id="@+id/houseImage2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/houseImage1"
+            android:layout_alignBottom="@id/houseImage1" />
+
+        <ImageView
+            android:id="@+id/houseImage3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/houseImage2"
+            android:layout_alignBottom="@id/houseImage1" />
+
+        <ImageView
+            android:id="@+id/houseImage4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/houseImage3"
+            android:layout_alignBottom="@id/houseImage1" />
 
         <TextView
             android:id="@+id/house_details_price_textview"
@@ -29,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/house_details_image"
+            android:layout_below="@id/houseImage1"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -74,7 +102,6 @@
             android:id="@+id/house_details_status_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -93,13 +120,24 @@
             android:layout_below="@id/house_details_bed_textview"
             tools:text="1550 Fraser Dr, Sunnyvale, CA" />
 
-        <ImageButton
-            android:id="@+id/house_details_liked_button"
+        <ImageView
+            android:id="@+id/house_details_liked_button_outline"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/favorite_button"
+            android:clickable="true"
+            android:src="@drawable/favorite_icon_background"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
+            android:layout_alignBottom="@id/house_details_image"
+            android:layout_alignEnd="@id/house_details_image"/>
+
+        <ImageView
+            android:id="@+id/house_details_liked_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/favorite_icon"
+            android:layout_marginBottom="19dp"
+            android:layout_marginRight="20dp"
             android:layout_alignBottom="@id/house_details_image"
             android:layout_alignEnd="@id/house_details_image"/>
 
@@ -159,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textAlignment="center"
+                android:textStyle="italic"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:layout_centerHorizontal="true"

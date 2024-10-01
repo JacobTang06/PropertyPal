@@ -67,7 +67,7 @@ data class HouseDetails (
     @SerialName("resoFacts")
     var houseFacts : HouseFacts?,
     @SerialName("listed_by")
-    var houseListingInfo : HouseListing?
+    var houseListingInfo : HouseListing?,
 ) : java.io.Serializable
 
 @Keep
@@ -109,4 +109,9 @@ data class AtAGlanceFacts(
     var factValue : String?,
 ) : java.io.Serializable
 
-
+@Keep
+@Serializable
+data class HouseImages (
+    @SerialName("images")
+    var houseImages : List<String>
+)

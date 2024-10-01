@@ -3,6 +3,6 @@ package com.example.tangestate
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
-    var favoriteHouseItems : MutableList<House> = mutableListOf()
-    var likeStatus : Boolean = false
+    var favoriteHouseItems : MutableMap<House?, Boolean> = mutableMapOf()
+    // var zpidToHouses : MutableList<House> = mutableListOf()
 }

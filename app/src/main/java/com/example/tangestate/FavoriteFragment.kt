@@ -24,11 +24,21 @@ class FavoriteFragment : Fragment() {
 
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
+        val likedHouses : MutableList<House> = mutableListOf()
+
+        for(house in sharedViewModel.favoriteHouseItems.keys) {
+            if(sharedViewModel.favoriteHouseItems[house] == true) {
+                if (house != null) {
+                    likedHouses.add(house)
+                }
+            }
+        }
+
         val layoutManager = LinearLayoutManager(context)
         favoriteHousesRv = view.findViewById(R.id.favorite_houses_rv)
         favoriteHousesRv.layoutManager = layoutManager
         favoriteHousesRv.setHasFixedSize(true)
-        favoriteHousesAdapter = FavoriteHousesAdapter(view.context, sharedViewModel.favoriteHouseItems)
+        favoriteHousesAdapter = FavoriteHousesAdapter(view.context, likedHouses, sharedViewModel)
         favoriteHousesRv.adapter = favoriteHousesAdapter
 
         return view
