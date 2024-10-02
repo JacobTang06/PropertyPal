@@ -77,8 +77,15 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
+                    if(filterText.text == "HIDE FILTERS") {
+                        filterText.text = "SHOW FILTERS"
+                    }
+                    filterCardView.visibility = View.INVISIBLE
                     houseItems.clear()
                     fetchHouses(query)
+                }
+                else {
+                    fetchHouses("")
                 }
                 return false
             }
@@ -116,8 +123,8 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         garageStatus = view.findViewById(R.id.hasGarage_checkbox)
         poolStatus = view.findViewById(R.id.hasPool_checkbox)
 
-        houseTypeText = ""
-        houseStatusText = ""
+        houseTypeText = "Houses"
+        houseStatusText = "ForSale"
     }
 
     private fun filterButtonClicked(view: View) {
@@ -126,6 +133,8 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 filterText.text = "HIDE FILTERS"
                 filterCardView.visibility = View.VISIBLE
                 filterCardView.bringToFront()
+                filterCardView.isFocusable = true
+                filterCardView.isClickable = true
 
                 ArrayAdapter.createFromResource(
                     view.context,
@@ -150,8 +159,6 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             else {
                 filterText.text = "SHOW FILTERS"
                 filterCardView.visibility = View.INVISIBLE
-                filterCardView.bringToFront()
-
             }
         }
     }
@@ -177,7 +184,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         if(!(minPrice.text.toString().isNullOrBlank() and maxPrice.text.toString().isNullOrBlank() and
                     maxBeds.text.toString().isNullOrBlank() and minBeds.text.toString().isNullOrBlank() and
                     maxBaths.text.toString().isNullOrBlank() and minBaths.text.toString().isNullOrBlank() and
-                    maxSqft.text.toString().isNullOrBlank() and minSqft.text.toString().isNullOrBlank())) {
+                    maxSqft.text.toString().isNullOrBlank() and minSqft.text.toString().isNullOrBlank() and (houseStatusText == "ForSale") and (houseTypeText == "Houses"))) {
 
             params["location"] = searchText
             params["home_type"] = houseTypeText
@@ -219,6 +226,9 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         BaseResponse.serializer(),
                         json.jsonObject.toString()
                     )
+                    if(parsedJson.properties!!.isEmpty()) {
+                        Toast.makeText(context, "No houses were found with the specified filters", Toast.LENGTH_LONG).show()
+                    }
                     parsedJson.properties?.let { list ->
                         houseItems.addAll(list)
                         housesAdapter.notifyDataSetChanged()

@@ -8,7 +8,7 @@
         <item>Townhomes</item>
     </string-array>
     <string-array name="home_status_items">
-        <item>RecentlySold</item>
         <item>ForSale</item>
+        <item>RecentlySold</item>
     </string-array>
 </resources>

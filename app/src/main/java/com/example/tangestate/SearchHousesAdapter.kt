@@ -44,25 +44,50 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         private val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
         private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
         private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
-        private val likeButton = itemView.findViewById<ImageView>(R.id.liked_houses_button)
+        // private val likeButton = itemView.findViewById<ImageView>(R.id.liked_houses_button)
         private val likeButtonOutline = itemView.findViewById<ImageView>(R.id.liked_houses_button_outline)
         private val cardView = itemView.findViewById<CardView>(R.id.house_card_view)
 
 
         fun bind(house: House) {
-            val formattedPrice = "%,d".format(house.housePrice)
-            housePrice.text = "$$formattedPrice"
-            houseBaths.text = house.houseBaths.toString() + " ba | "
-            houseBeds.text = house.houseBeds.toString() + " bds | "
-
+            if(house.housePrice == null) {
+                housePrice.text = "Price: N/A"
+            }
+            else {
+                val formattedPrice = "%,d".format(house.housePrice)
+                housePrice.text = "$$formattedPrice"
+            }
+            if(house.houseBaths == null) {
+                houseBaths.text = "n/a ba |"
+            }
+            else {
+                houseBaths.text = house.houseBaths.toString() + " ba | "
+            }
+            if(house.houseBeds == null) {
+                houseBeds.text = "n/a bds |"
+            }
+            else {
+                houseBeds.text = house.houseBeds.toString() + " bds | "
+            }
             houseAddress.text = house.houseAddress
             houseStatus.text = house.houseStatus?.replace("_", " ")
 
             if(house.houseAreaUnit == "sqft") {
-                houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+                if(house.houseSqft == null) {
+                    houseSqft.text = "n/a sqft"
+                }
+                else {
+                    houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+                }
             }
             else {
-                houseSqft.text = (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+                if(house.houseSqft == null) {
+                    houseSqft.text = "n/a sqft"
+                }
+                else {
+                    houseSqft.text =
+                        (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+                }
             }
 
             Glide.with(itemView)
@@ -72,6 +97,9 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
 
             if(viewModel.favoriteHouseItems[house] == true) {
                 likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
+            }
+            else {
+                likeButtonOutline.clearColorFilter()
             }
 
             likeButtonOutline.setOnClickListener {
@@ -85,7 +113,6 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 else {
                     likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
                     viewModel.favoriteHouseItems[house] = true
-                    Log.d("Entries: ", viewModel.favoriteHouseItems.size.toString())
                 }
             }
 

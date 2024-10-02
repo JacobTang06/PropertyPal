@@ -7,15 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.w3c.dom.Text
 
 private const val ACRES_TO_SQFT = 43560
 class FavoriteHousesAdapter(private val context: Context, private val houses : MutableList<House>, private val sharedViewModel: SharedViewModel) : RecyclerView.Adapter<FavoriteHousesAdapter.ViewHolder>() {
@@ -76,6 +73,7 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
                 houses.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, houses.size)
+                // remind search houses adapter that house is unliked
                 Log.d("House list size", houses.size.toString())
             }
 

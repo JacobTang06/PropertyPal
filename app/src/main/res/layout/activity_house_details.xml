@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <!-- Top View -->
     <RelativeLayout
@@ -22,34 +22,13 @@
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             tools:src="@drawable/brightness_icon" />
-        
-        <ImageView
-            android:id="@+id/houseImage1"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/house_images_rv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:layout_marginTop="5dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             android:layout_below="@id/house_details_image" />
-
-        <ImageView
-            android:id="@+id/houseImage2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_toRightOf="@id/houseImage1"
-            android:layout_alignBottom="@id/houseImage1" />
-
-        <ImageView
-            android:id="@+id/houseImage3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_toRightOf="@id/houseImage2"
-            android:layout_alignBottom="@id/houseImage1" />
-
-        <ImageView
-            android:id="@+id/houseImage4"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_toRightOf="@id/houseImage3"
-            android:layout_alignBottom="@id/houseImage1" />
 
         <TextView
             android:id="@+id/house_details_price_textview"
@@ -57,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/houseImage1"
+            android:layout_below="@id/house_images_rv"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -146,26 +125,27 @@
     <!-- Bottom View -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/topViewLayout" >
+        app:layout_constraintTop_toBottomOf="@+id/topViewLayout">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/house_listing_agent_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
+                android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textAlignment="textEnd"
-                android:layout_alignParentEnd="true"
                 tools:text="Listing Agent: Tyler mith" />
 
             <TextView
@@ -174,9 +154,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/house_listing_agent_textview"
                 android:layout_alignEnd="@id/house_listing_agent_textview"
+                android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textAlignment="textEnd"
                 tools:text="Company: Compass" />
 
             <TextView
@@ -186,47 +166,47 @@
                 android:layout_below="@id/house_listing_company_textview"
                 android:layout_alignEnd="@id/house_listing_agent_textview"
                 android:layout_marginBottom="10dp"
+                android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textAlignment="textEnd"
                 tools:text="Number: (408)482-8502" />
 
             <TextView
                 android:id="@+id/house_summary_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/house_listing_agent_number_textview"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:textAlignment="center"
-                android:textStyle="italic"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/house_listing_agent_number_textview"
+                android:textStyle="italic"
                 tools:text="Description: This super great home..." />
 
             <TextView
                 android:id="@+id/house_facts_title_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/house_summary_textview"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:text="At A Glance Facts:"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/house_summary_textview" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/house_facts_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
                 android:layout_below="@id/house_facts_title_textview"
+                android:layout_marginStart="20dp"
                 android:layout_marginBottom="20dp"
                 android:paddingBottom="5dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 tools:text="Type: Residential" />
 
         </RelativeLayout>

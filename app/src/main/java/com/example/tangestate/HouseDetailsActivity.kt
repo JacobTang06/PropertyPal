@@ -8,7 +8,10 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
@@ -38,12 +41,11 @@ class HouseDetailsActivity : AppCompatActivity() {
     private lateinit var houseSummary : TextView
     private lateinit var houseFacts : TextView
 
-    private lateinit var houseImage1 : ImageView
-    private lateinit var houseImage2 : ImageView
-    private lateinit var houseImage3 : ImageView
-    private lateinit var houseImage4 : ImageView
+    private lateinit var houseImagesRv : RecyclerView
+    private var houseImages : MutableList<String> = mutableListOf()
 
     private lateinit var clickedHouse : House
+
     private val client = AsyncHttpClient()
     private var params = RequestParams()
     private var headers = RequestHeaders()
@@ -79,10 +81,7 @@ class HouseDetailsActivity : AppCompatActivity() {
         houseSummary = findViewById(R.id.house_summary_textview)
         houseFacts = findViewById(R.id.house_facts_textview)
 
-        houseImage1 = findViewById(R.id.houseImage1)
-        houseImage2 = findViewById(R.id.houseImage2)
-        houseImage3 = findViewById(R.id.houseImage3)
-        houseImage4 = findViewById(R.id.houseImage4)
+        houseImagesRv = findViewById(R.id.house_images_rv)
 
     }
 
@@ -155,13 +154,13 @@ class HouseDetailsActivity : AppCompatActivity() {
                         json.jsonObject.toString()
                     )
 
-                    val imageView = listOf(houseImage1, houseImage2, houseImage3, houseImage4)
-                    for(imageIndex in imageView.indices) {
-                        Glide.with(this@HouseDetailsActivity)
-                            .load(house.houseImages[imageIndex + (house.houseImages.size / imageView.size)])
-                            .centerCrop()
-                            .into(imageView[imageIndex])
-                    }
+                    houseImages.addAll(house.houseImages)
+
+                    val layoutManager = LinearLayoutManager(this@HouseDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+                    houseImagesRv.layoutManager = layoutManager
+                    houseImagesRv.setHasFixedSize(true)
+                    val houseImagesAdapter = HouseDetailsImagesAdapter(this@HouseDetailsActivity, houseImages)
+                    houseImagesRv.adapter = houseImagesAdapter
 
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
@@ -205,17 +204,18 @@ class HouseDetailsActivity : AppCompatActivity() {
             houseFacts.text = houseFacts.text.toString() + fact.factLabel + ": " + fact.factValue + "\n"
         }
 
-        likeButton.setOnClickListener {
+        likeButtonOutline.setOnClickListener {
             if(sharedViewModel.favoriteHouseItems[clickedHouse] == true) {
-                likeButton.clearColorFilter()
+                likeButtonOutline.clearColorFilter()
                 sharedViewModel.favoriteHouseItems[clickedHouse] = false
                 if(sharedViewModel.favoriteHouseItems.isNotEmpty()) {
                     sharedViewModel.favoriteHouseItems.remove(clickedHouse)
                 }
             }
             else {
-                likeButton.setBackgroundResource(R.color.lightRed)
+                likeButtonOutline.setColorFilter(ContextCompat.getColor(this, R.color.lightRed))
                 sharedViewModel.favoriteHouseItems[clickedHouse] = true
+                Log.d("Entries: ", sharedViewModel.favoriteHouseItems.size.toString())
             }
         }
 
