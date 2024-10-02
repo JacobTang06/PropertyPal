@@ -30,11 +30,11 @@ TangEstate is a mobile application designed for users to view and search for spe
 
 **Required Features**
 
-- [ ] Login and Signup Functionality: Users must sign in to access house info and past house data they have saved.
-- [ ] Search Houses: Search bar that allows users to search up houses around their location and narrow down their search using filters.
-- [ ] Liked Houses: Database that stores houses and house details the users have liked/pinned.
+- [x] Login and Signup Functionality: Users must sign in to access house info and past house data they have saved.
+- [x] Search Houses: Search bar that allows users to search up houses around a specified location and narrow down their search using filters.
+- [x] Liked Houses: Database that stores houses and house details the users have liked/pinned.
 - [ ] House Details: Displays the details of the house when the user clicks on a specific house they are interested in.
-- [ ] House Statistics: Keeps track of liked houses statistics to provide house recommendations to the user.
+- [ ] House Recommendations: Keeps track of liked houses statistics and provides house recommendations to the user based on these stats.
 
 **Optional Features**
 
@@ -45,9 +45,9 @@ TangEstate is a mobile application designed for users to view and search for spe
 - Login/Signup Screen 
     - [x] Required Story: Users can sign up or login to access the app.
 - Browse Screen (Dashboard)
-    - [ ] Required Story: Users can search for houses around their location. They can refine their search using specific filters.
+    - [x] Required Story: Users can search for houses around a specified location. They can refine their search using specific filters.
 - Favorites Screen
-    - [ ] Required Story: Users can view the houses they've liked/pinned.
+    - [x] Required Story: Users can view the houses they've liked/pinned.
 - Profile Screen
     - [ ] Required Story: Users can adjust their settings, manage their account, or log out.
 - Details Screen
@@ -60,7 +60,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 **Tab Navigation** (Tab to Screen)
 
 * Favorites: Keeps a log of the all the houses the user liked/pinned.
-* Browse: Allows users to search for homes around the location they listed and narrow down their search using filters.
+* Browse: Allows users to search for homes around the location they specified and narrow down their search using filters.
 * Profile: Takes users to their profile where they can view their account settings.
 * Suggestions: Provides users with a recommended list of houses for them to check out.
 
