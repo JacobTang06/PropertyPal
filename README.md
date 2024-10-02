@@ -78,7 +78,7 @@ TangEstate is a mobile application designed for users to view and search for spe
 <br>
 
 ### Interactive Prototype
-<img src="InteractivePrototype.gif" width=600>
+<img src="EstatePrototype.gif" width=600>
 
 <br>
 
