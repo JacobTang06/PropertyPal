@@ -73,7 +73,7 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
                 houses.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, houses.size)
-                // remind search houses adapter that house is unliked
+                // TODO: remind search houses adapter that house is unliked
                 Log.d("House list size", houses.size.toString())
             }
 

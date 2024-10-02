@@ -15,7 +15,6 @@ import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import com.google.android.material.search.SearchBar
 import okhttp3.Headers
 import org.json.JSONException
 
