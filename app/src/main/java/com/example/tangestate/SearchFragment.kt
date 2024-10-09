@@ -1,9 +1,12 @@
 package com.example.tangestate
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -21,7 +24,7 @@ import org.json.JSONException
 private const val TAG = "SearchFragment"
 private const val API_KEY = BuildConfig.API_KEY
 
-class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemClickListener {
     private lateinit var searchBar : SearchView
     private lateinit var filterText : TextView
     private lateinit var filterCardView : CardView
@@ -52,7 +55,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
 
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         setupFilters(view)
         filterButtonClicked(view)
@@ -61,10 +64,36 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         housesRv = view.findViewById(R.id.browse_houses_rv)
         housesRv.layoutManager = layoutManager
         housesRv.setHasFixedSize(true)
-        housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel)
+        housesAdapter = SearchHousesAdapter(view.context, houseItems, sharedViewModel, this)
         housesRv.adapter = housesAdapter
 
         return view
+    }
+
+    private val REQUEST_CODE = 1001
+
+    override fun onItemClick(house: House, likeStatus: Boolean?) {
+        val intent = Intent(context, HouseDetailsActivity::class.java).apply {
+            putExtra("HOUSE_EXTRA", house)
+            putExtra("LIKE_STATUS", likeStatus)
+            putExtra("HOUSE_POSITION", houseItems.indexOf(house))
+        }
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val likeStatus = data?.getBooleanExtra("LIKE_STATUS", false)
+            val position = data?.getIntExtra("HOME_POSITION", -1)
+            Log.d("Clicked house data maintained", likeStatus.toString() + ", " + position.toString())
+            if (position != null && likeStatus != null) {
+                housesAdapter.updateItemColor(position, likeStatus)
+            }
+            else {
+                error("Attempting to access invalid house index")
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,13 +124,6 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         })
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() : SearchFragment {
-            return SearchFragment()
-        }
     }
 
     private fun setupFilters(view: View) {
@@ -164,13 +186,13 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun fetchHouses(searchText : String) {
         val client = AsyncHttpClient()
-        var params = RequestParams()
-        var headers = RequestHeaders()
+        val params = RequestParams()
+        val headers = RequestHeaders()
         //params["X-RapidAPI-Key"] = API_KEY
         headers["x-rapidapi-key"] = API_KEY
         headers["x-rapidapi-host"] = "zillow-com1.p.rapidapi.com"
 
-        var clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
+        val clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
 
         params["page"] = "1"
         if(searchText != "") {
@@ -180,10 +202,10 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
             params["location"] = "Cupertino, CA"
         }
 
-        if(!(minPrice.text.toString().isNullOrBlank() and maxPrice.text.toString().isNullOrBlank() and
-                    maxBeds.text.toString().isNullOrBlank() and minBeds.text.toString().isNullOrBlank() and
-                    maxBaths.text.toString().isNullOrBlank() and minBaths.text.toString().isNullOrBlank() and
-                    maxSqft.text.toString().isNullOrBlank() and minSqft.text.toString().isNullOrBlank() and (houseStatusText == "ForSale") and (houseTypeText == "Houses"))) {
+        if(!(minPrice.text.toString().isBlank() and maxPrice.text.toString().isBlank() and
+                    maxBeds.text.toString().isBlank() and minBeds.text.toString().isBlank() and
+                    maxBaths.text.toString().isBlank() and minBaths.text.toString().isBlank() and
+                    maxSqft.text.toString().isBlank() and minSqft.text.toString().isBlank() and (houseStatusText == "ForSale") and (houseTypeText == "Houses"))) {
 
             params["location"] = searchText
             params["home_type"] = houseTypeText
@@ -228,11 +250,10 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     if(parsedJson.properties!!.isEmpty()) {
                         Toast.makeText(context, "No houses were found with the specified filters", Toast.LENGTH_LONG).show()
                     }
-                    parsedJson.properties?.let { list ->
+                    parsedJson.properties.let { list ->
                         houseItems.addAll(list)
                         housesAdapter.notifyDataSetChanged()
                     }
-                    // sharedViewModel.zpidToHouses.addAll(houseItems)
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
                 }

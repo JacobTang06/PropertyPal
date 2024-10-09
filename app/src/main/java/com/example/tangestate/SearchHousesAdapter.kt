@@ -1,5 +1,6 @@
 package com.example.tangestate
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -14,7 +15,10 @@ import com.bumptech.glide.Glide
 
 private const val ACRES_TO_SQFT = 43560
 
-class SearchHousesAdapter (private val context: Context, private val houses : List<House>, private val viewModel : SharedViewModel) :
+class SearchHousesAdapter (private val context: Context,
+                           private val houses : List<House>,
+                           private val viewModel : SharedViewModel,
+                           private val listener : OnItemClickListener) :
     RecyclerView.Adapter<SearchHousesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,8 +31,21 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         holder.bind(house)
     }
 
-    override fun getItemCount() = houses.size
+    fun updateItemColor(position : Int, likeStatus : Boolean) {
+        val house = houses[position]
+        if(viewModel.favoriteHouseItems.value?.get(house) == true) {
+            viewModel.favoriteHouseItems.value?.set(house, false)
+            if(viewModel.favoriteHouseItems.value!!.isNotEmpty()) {
+                viewModel.favoriteHouseItems.value?.remove(house)
+            }
+        }
+        else {
+            viewModel.favoriteHouseItems.value?.set(house, true)
+        }
+        notifyItemChanged(position)
+    }
 
+    override fun getItemCount() = houses.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -39,7 +56,6 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
         private val houseAddress = itemView.findViewById<TextView>(R.id.house_address_textview)
         private val houseStatus = itemView.findViewById<TextView>(R.id.house_status_textview)
         private val houseImage = itemView.findViewById<ImageView>(R.id.house_image)
-        // private val likeButton = itemView.findViewById<ImageView>(R.id.liked_houses_button)
         private val likeButtonOutline = itemView.findViewById<ImageView>(R.id.liked_houses_button_outline)
         private val cardView = itemView.findViewById<CardView>(R.id.house_card_view)
 
@@ -72,7 +88,7 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                     houseSqft.text = "n/a sqft"
                 }
                 else {
-                    houseSqft.text = house.houseSqft?.toInt().toString() + " sqft"
+                    houseSqft.text = house.houseSqft.toInt().toString() + " sqft"
                 }
             }
             else {
@@ -81,7 +97,7 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 }
                 else {
                     houseSqft.text =
-                        (house.houseSqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+                        (house.houseSqft.times(ACRES_TO_SQFT)).toInt().toString() + " sqft"
                 }
             }
 
@@ -90,7 +106,7 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
                 .centerCrop()
                 .into(houseImage)
 
-            if(viewModel.favoriteHouseItems[house] == true) {
+            if(viewModel.favoriteHouseItems.value?.get(house) == true) {
                 likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
             }
             else {
@@ -98,26 +114,23 @@ class SearchHousesAdapter (private val context: Context, private val houses : Li
             }
 
             likeButtonOutline.setOnClickListener {
-                if(viewModel.favoriteHouseItems[house] == true) {
+                if(viewModel.favoriteHouseItems.value?.get(house) == true) {
                     likeButtonOutline.clearColorFilter()
-                    viewModel.favoriteHouseItems[house] = false
-                    if(viewModel.favoriteHouseItems.isNotEmpty()) {
-                        viewModel.favoriteHouseItems.remove(house)
+                    viewModel.favoriteHouseItems.value?.set(house, false)
+                    if(viewModel.favoriteHouseItems.value!!.isNotEmpty()) {
+                        viewModel.favoriteHouseItems.value?.remove(house)
                     }
                 }
                 else {
                     likeButtonOutline.setColorFilter(ContextCompat.getColor(context, R.color.lightRed))
-                    viewModel.favoriteHouseItems[house] = true
+                    viewModel.favoriteHouseItems.value?.set(house, true)
                 }
             }
 
             cardView.setOnClickListener {
-                val intent = Intent(context, HouseDetailsActivity::class.java)
-                intent.putExtra("HOUSE_EXTRA", house)
-                context.startActivity(intent)
+                listener.onItemClick(house, viewModel.favoriteHouseItems.value?.get(house))
             }
         }
-
     }
 
 }

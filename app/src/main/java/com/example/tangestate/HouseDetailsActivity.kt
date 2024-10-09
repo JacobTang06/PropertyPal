@@ -1,5 +1,8 @@
 package com.example.tangestate
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -53,7 +56,7 @@ class HouseDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_house_details)
 
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         setupHouseDetails()
         fetchHouseDetails()
@@ -90,7 +93,7 @@ class HouseDetailsActivity : AppCompatActivity() {
 
         params["zpid"] = clickedHouse.houseId.toString()
 
-        var clientUrl = "https://zillow-com1.p.rapidapi.com/property"
+        val clientUrl = "https://zillow-com1.p.rapidapi.com/property"
 
         client.get(clientUrl, headers, params, object: JsonHttpResponseHandler()
         {
@@ -129,7 +132,7 @@ class HouseDetailsActivity : AppCompatActivity() {
 
         params["zpid"] = clickedHouse.houseId.toString()
 
-        var clientUrl = "https://zillow-com1.p.rapidapi.com/images"
+        val clientUrl = "https://zillow-com1.p.rapidapi.com/images"
 
         client.get(clientUrl, headers, params, object: JsonHttpResponseHandler()
         {
@@ -166,6 +169,7 @@ class HouseDetailsActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun displayHouseDetails(house : HouseDetails) {
         val formattedPrice = "%,d".format(house.price)
         housePrice.text = "$$formattedPrice"
@@ -201,20 +205,43 @@ class HouseDetailsActivity : AppCompatActivity() {
             houseFacts.text = houseFacts.text.toString() + fact.factLabel + ": " + fact.factValue + "\n"
         }
 
+        val likeStatus = intent.getBooleanExtra("LIKE_STATUS", false)
+
+        if(likeStatus) {
+            likeButtonOutline.setColorFilter(ContextCompat.getColor(this, R.color.lightRed))
+            sharedViewModel.favoriteHouseItems.value?.set(clickedHouse, true)
+        }
+        else {
+            likeButtonOutline.clearColorFilter()
+            sharedViewModel.favoriteHouseItems.value?.set(clickedHouse, false)
+        }
+
         likeButtonOutline.setOnClickListener {
-            if(sharedViewModel.favoriteHouseItems[clickedHouse] == true) {
+            if(sharedViewModel.favoriteHouseItems.value?.get(clickedHouse) == true) {
                 likeButtonOutline.clearColorFilter()
-                sharedViewModel.favoriteHouseItems[clickedHouse] = false
-                if(sharedViewModel.favoriteHouseItems.isNotEmpty()) {
-                    sharedViewModel.favoriteHouseItems.remove(clickedHouse)
-                }
+                sharedViewModel.favoriteHouseItems.value?.set(clickedHouse, false)
+                if(sharedViewModel.favoriteHouseItems.value!!.isNotEmpty()) {
+                    sharedViewModel.favoriteHouseItems.value?.remove(clickedHouse)              }
             }
             else {
                 likeButtonOutline.setColorFilter(ContextCompat.getColor(this, R.color.lightRed))
-                sharedViewModel.favoriteHouseItems[clickedHouse] = true
-                Log.d("Entries: ", sharedViewModel.favoriteHouseItems.size.toString())
+                sharedViewModel.favoriteHouseItems.value?.set(clickedHouse, true)
             }
         }
+
+    }
+
+    override fun onBackPressed() {
+        Log.d("Back button", "pressed")
+        val position = intent.getIntExtra("HOUSE_POSITION", -1)
+
+        val intent = Intent().apply {
+            putExtra("LIKE_STATUS", sharedViewModel.favoriteHouseItems.value?.get(clickedHouse))
+            Log.d("Clicked house position", position.toString())
+            putExtra("HOME_POSITION", position)
+        }
+        setResult(Activity.RESULT_OK, intent)
+        super.onBackPressed()
 
     }
 }

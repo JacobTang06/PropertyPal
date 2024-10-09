@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class FavoriteFragment : Fragment() {
-    private lateinit var favoriteHousesAdapter : FavoriteHousesAdapter
     private lateinit var favoriteHousesRv : RecyclerView
-
     private lateinit var sharedViewModel : SharedViewModel
-
+    private lateinit var favoriteHousesAdapter : FavoriteHousesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +24,8 @@ class FavoriteFragment : Fragment() {
 
         val likedHouses : MutableList<House> = mutableListOf()
 
-        for(house in sharedViewModel.favoriteHouseItems.keys) {
-            if(sharedViewModel.favoriteHouseItems[house] == true) {
+        for(house in sharedViewModel.favoriteHouseItems.value?.keys!!) {
+            if(sharedViewModel.favoriteHouseItems.value?.get(house) == true) {
                 if (house != null) {
                     likedHouses.add(house)
                 }

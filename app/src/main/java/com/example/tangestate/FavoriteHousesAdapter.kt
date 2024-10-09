@@ -69,11 +69,10 @@ class FavoriteHousesAdapter(private val context: Context, private val houses : M
 
             likeButtonOutline.setOnClickListener {
                 likeButtonOutline.clearColorFilter()
-                sharedViewModel.favoriteHouseItems[house] == false
+                sharedViewModel.favoriteHouseItems.value?.set(house, false)
                 houses.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
                 notifyItemRangeChanged(adapterPosition, houses.size)
-                // TODO: remind search houses adapter that house is unliked
                 Log.d("House list size", houses.size.toString())
             }
 

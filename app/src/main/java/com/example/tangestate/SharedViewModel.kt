@@ -1,7 +1,8 @@
 package com.example.tangestate
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
-    var favoriteHouseItems : MutableMap<House?, Boolean> = mutableMapOf()
+    var favoriteHouseItems : MutableLiveData<MutableMap<House?, Boolean>> = MutableLiveData(mutableMapOf())
 }
