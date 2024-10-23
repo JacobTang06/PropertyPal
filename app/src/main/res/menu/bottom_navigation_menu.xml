@@ -11,7 +11,7 @@
     <item
         android:id="@+id/nav_suggestions"
         android:title="Suggestions"
-        android:icon="@drawable/baseline_home_24" />
+        android:icon="@drawable/baseline_recommend_24" />
     <item
         android:id="@+id/nav_profile"
         android:title="Profile"
