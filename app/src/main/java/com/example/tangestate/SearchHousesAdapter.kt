@@ -31,7 +31,7 @@ class SearchHousesAdapter (private val context: Context,
         holder.bind(house)
     }
 
-    fun updateItemColor(position : Int, likeStatus : Boolean) {
+    fun updateItemColor(position : Int) {
         val house = houses[position]
         if(viewModel.favoriteHouseItems.value?.get(house) == true) {
             viewModel.favoriteHouseItems.value?.set(house, false)
@@ -62,7 +62,7 @@ class SearchHousesAdapter (private val context: Context,
 
         fun bind(house: House) {
             if(house.housePrice == null) {
-                housePrice.text = "Price: N/A"
+                housePrice.text = "Price: Unknown"
             }
             else {
                 val formattedPrice = "%,d".format(house.housePrice)
@@ -81,7 +81,7 @@ class SearchHousesAdapter (private val context: Context,
                 houseBeds.text = house.houseBeds.toString() + " bds | "
             }
             houseAddress.text = house.houseAddress
-            houseStatus.text = house.houseStatus?.replace("_", " ")
+            houseStatus.text = house.houseStatus?.replace("_", " ") ?: "Unknown Status"
 
             if(house.houseAreaUnit == "sqft") {
                 if(house.houseSqft == null) {

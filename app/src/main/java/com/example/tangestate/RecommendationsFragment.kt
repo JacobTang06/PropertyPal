@@ -109,7 +109,7 @@ class RecommendationsFragment : Fragment(), OnItemClickListener {
 
         val clientUrl = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
 
-        params["location"] = "New York, NY; Los Angeles, CA; Mountain View, CA; Austin, TX; Naples, FA"
+        params["location"] = "New York, NY; Los Angeles, CA; Palo Alto, CA; Austin, TX; Naples, FA"
         params["minPrice"] = (avgPrice - avgPrice / 10).toString()
         params["maxPrice"] = (avgPrice + avgPrice / 10).toString()
         params["minBeds"] = avgBeds.toString()
@@ -143,8 +143,14 @@ class RecommendationsFragment : Fragment(), OnItemClickListener {
                     }
                     parsedJson.properties.let { list ->
                         houseItems.addAll(list)
+                        for(house in houseItems) {
+                            if(sharedViewModel.favoriteHouseItems.value?.get(house) == true) {
+                                houseItems.remove(house)
+                            }
+                        }
                         recommendationsAdapter.notifyDataSetChanged()
                     }
+
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
                 }
@@ -170,7 +176,9 @@ class RecommendationsFragment : Fragment(), OnItemClickListener {
             val position = data?.getIntExtra("HOME_POSITION", -1)
             Log.d("Clicked house data maintained", likeStatus.toString() + ", " + position.toString())
             if (position != null && likeStatus != null) {
-                recommendationsAdapter.updateItemColor(position, likeStatus)
+                if(likeStatus) {
+                    recommendationsAdapter.updateItemColor(position)
+                }
             }
             else {
                 error("Attempting to access invalid house index")

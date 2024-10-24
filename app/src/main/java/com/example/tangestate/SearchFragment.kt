@@ -18,6 +18,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import kotlinx.serialization.MissingFieldException
 import okhttp3.Headers
 import org.json.JSONException
 
@@ -43,6 +44,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
     private lateinit var houseStatusText : String
     private lateinit var garageStatus : CheckBox
     private lateinit var poolStatus : CheckBox
+    private lateinit var acStatus : CheckBox
     private lateinit var housesAdapter : SearchHousesAdapter
     private lateinit var housesRv : RecyclerView
     private var houseItems = mutableListOf<House>()
@@ -88,7 +90,9 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
             val position = data?.getIntExtra("HOME_POSITION", -1)
             Log.d("Clicked house data maintained", likeStatus.toString() + ", " + position.toString())
             if (position != null && likeStatus != null) {
-                housesAdapter.updateItemColor(position, likeStatus)
+                if(likeStatus) {
+                    housesAdapter.updateItemColor(position)
+                }
             }
             else {
                 error("Attempting to access invalid house index")
@@ -143,6 +147,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
         houseStatus = view.findViewById(R.id.home_status_spinner)
         garageStatus = view.findViewById(R.id.hasGarage_checkbox)
         poolStatus = view.findViewById(R.id.hasPool_checkbox)
+        acStatus = view.findViewById(R.id.hasAC_checkbox)
 
         houseTypeText = "Houses"
         houseStatusText = "ForSale"
@@ -208,10 +213,18 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
                     maxSqft.text.toString().isBlank() and minSqft.text.toString().isBlank() and (houseStatusText == "ForSale") and (houseTypeText == "Houses"))) {
 
             params["location"] = searchText
-            params["home_type"] = houseTypeText
             params["status_type"] = houseStatusText
-            params["minPrice"] = minPrice.text.toString().toIntOrNull()?.toString() ?: "0"
-            params["maxPrice"] = maxPrice.text.toString().toIntOrNull()?.toString() ?: "100000000"
+
+            if(houseStatusText == "ForRent") {
+                params["rentMinPrice"] = minPrice.text.toString().toIntOrNull()?.toString() ?: "0"
+                params["rentMaxPrice"] = maxPrice.text.toString().toIntOrNull()?.toString() ?: "100000000"
+                params["home_type"] = if (houseTypeText == "Apartments") "Apartments_Condos_Co-ops" else houseTypeText
+            }
+            else {
+                params["minPrice"] = minPrice.text.toString().toIntOrNull()?.toString() ?: "0"
+                params["maxPrice"] = maxPrice.text.toString().toIntOrNull()?.toString() ?: "100000000"
+                params["home_type"] = houseTypeText
+            }
             params["bathsMin"] = minBaths.text.toString().toFloatOrNull()?.toString() ?: "0.0"
             params["bathsMax"] = maxBaths.text.toString().toFloatOrNull()?.toString() ?: "20.0"
             params["bedsMin"] = minBeds.text.toString().toIntOrNull()?.toString() ?: "0"
@@ -224,6 +237,9 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
             }
             if(poolStatus.isChecked) {
                 params["hasPool"] = "True"
+            }
+            if(acStatus.isChecked) {
+                params["hasAirConditioning"] = "True"
             }
         }
 
@@ -256,6 +272,11 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
                     }
                 } catch (e: JSONException) {
                     Log.e(TAG, "Exception: $e")
+                } catch (e: MissingFieldException) {
+                    Log.e(TAG, "Exception: $e")
+                    Toast.makeText(context, "No houses show up with the specified filters", Toast.LENGTH_LONG).show()
+                    searchBar.setQuery("", false)
+                    searchBar.clearFocus()
                 }
             }
         })
@@ -266,9 +287,7 @@ class SearchFragment : Fragment(), AdapterView.OnItemSelectedListener, OnItemCli
             when(adapterView.id) {
                 R.id.home_status_spinner -> houseStatusText = adapterView.getItemAtPosition(position).toString().replace("\\s".toRegex(), "")
                 R.id.building_type_spinner -> houseTypeText = adapterView.getItemAtPosition(position).toString().replace("\\s".toRegex(), "")
-
             }
-
         }
     }
 

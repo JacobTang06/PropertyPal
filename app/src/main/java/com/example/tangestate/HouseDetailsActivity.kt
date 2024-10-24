@@ -5,7 +5,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,7 +28,7 @@ private const val TAG = "HouseDetailsActivity"
 private const val ACRES_TO_SQFT = 43560
 private const val API_KEY = BuildConfig.API_KEY
 
-class HouseDetailsActivity : AppCompatActivity() {
+class HouseDetailsActivity : AppCompatActivity(), ImagePopupListener {
     private lateinit var housePrice : TextView
     private lateinit var houseBeds : TextView
     private lateinit var houseBaths : TextView
@@ -159,7 +163,7 @@ class HouseDetailsActivity : AppCompatActivity() {
                     val layoutManager = LinearLayoutManager(this@HouseDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
                     houseImagesRv.layoutManager = layoutManager
                     houseImagesRv.setHasFixedSize(true)
-                    val houseImagesAdapter = HouseDetailsImagesAdapter(this@HouseDetailsActivity, houseImages)
+                    val houseImagesAdapter = HouseDetailsImagesAdapter(this@HouseDetailsActivity, houseImages, this@HouseDetailsActivity)
                     houseImagesRv.adapter = houseImagesAdapter
 
                 } catch (e: JSONException) {
@@ -177,13 +181,13 @@ class HouseDetailsActivity : AppCompatActivity() {
         houseBeds.text = house.beds.toString() + " bds | "
 
         houseAddress.text = house.address + ", " + house.city + ", " + house.state + " " + house.zipcode
-        houseStatus.text = house.homeStatus?.replace("_", " ")
+        houseStatus.text = house.homeStatus?.replace("_", " ") ?: "Unknown Status"
 
         if(house.sqftUnits == "sqft") {
-            houseSqft.text = house.sqft?.toInt().toString() + " sqft"
+            houseSqft.text = "${house.sqft?.toInt()?.toString() ?: "N/A"} sqft"
         }
         else {
-            houseSqft.text = (house.sqft?.times(ACRES_TO_SQFT))?.toInt().toString() + " sqft"
+            houseSqft.text = "${(house.sqft?.times(ACRES_TO_SQFT))?.toInt()?.toString() ?: "N/A"} sqft"
         }
 
         Glide.with(this)
@@ -192,17 +196,25 @@ class HouseDetailsActivity : AppCompatActivity() {
             .into(houseImage)
 
         // Null check for agent information
-        val agentNumber = "(" + house.houseListingInfo?.agentNumber?.prefix + ")" +
-                house.houseListingInfo?.agentNumber?.areaCode + "-" +
-                house.houseListingInfo?.agentNumber?.number
+        val agentNumber = "(${house.houseListingInfo?.agentNumber?.prefix ?: "---"}) " +
+                "${house.houseListingInfo?.agentNumber?.areaCode ?: "---"}-" +
+                "${house.houseListingInfo?.agentNumber?.number ?: "---"}"
 
-        listingAgent.text = "Agent: " + house.houseListingInfo?.agentName
-        listingCompany.text = "Company: " + house.houseListingInfo?.companyName
+        listingAgent.text = "Agent: ${house.houseListingInfo?.agentName ?: "N/A"}"
+        listingCompany.text = "Company: ${house.houseListingInfo?.companyName ?: "N/A"}"
         listingAgentNumber.text = "Number: $agentNumber"
         houseSummary.text = "Description: " + house.homeDescription
 
-        for(fact in house.houseFacts?.facts!!) {
-            houseFacts.text = houseFacts.text.toString() + fact.factLabel + ": " + fact.factValue + "\n"
+        val facts = house.houseFacts?.facts // Get facts safely
+
+        if (facts.isNullOrEmpty()) {
+            // Perform an action if facts is null or empty
+            houseFacts.text = "No facts available"
+        } else {
+            // If facts is not null and has elements, iterate through them
+            for (fact in facts) {
+                houseFacts.text = houseFacts.text.toString() + fact.factLabel + ": " + fact.factValue + "\n"
+            }
         }
 
         val likeStatus = intent.getBooleanExtra("LIKE_STATUS", false)
@@ -243,5 +255,34 @@ class HouseDetailsActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, intent)
         super.onBackPressed()
 
+    }
+
+    override fun showImagePopup(imageUrl: String?) {
+        val popupView = layoutInflater.inflate(R.layout.house_image_popup, null)
+        val popupWindow = PopupWindow(popupView,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                                true)
+        val popupImageView : ImageView = popupView.findViewById(R.id.houseImagePopup)
+        val closeButton : ImageView = popupView.findViewById(R.id.closeButton)
+
+        if(imageUrl != null) {
+            Glide.with(popupView)
+                .load(imageUrl)
+                .into(popupImageView)
+        }
+
+        val layoutParams = window.attributes
+        layoutParams.alpha = 0.7f // Dimming the background
+        window.attributes = layoutParams
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.showAtLocation(findViewById(R.id.house_images_rv), Gravity.CENTER, 0,0 )
+
+        closeButton.setOnClickListener {
+            popupWindow.dismiss()
+            layoutParams.alpha = 1f // Restoring the background
+            window.attributes = layoutParams
+        }
     }
 }

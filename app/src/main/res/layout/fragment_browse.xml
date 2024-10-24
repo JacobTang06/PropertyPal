@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:clickable="true"
+        android:focusable="true"
         android:text="SHOW FILTERS"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="40dp"
-                android:layout_toRightOf="@id/home_status_spinner" />
+                android:layout_toEndOf="@id/home_status_spinner" />
 
             <EditText
                 android:id="@+id/minPrice_editText"
@@ -89,7 +90,7 @@
                 android:layout_below="@id/home_status_spinner"
                 android:hint="Min Price"
                 android:inputType="numberDecimal"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/maxPrice_editText"
@@ -99,9 +100,9 @@
                 android:layout_marginVertical="15dp"
                 android:hint="Max Price"
                 android:inputType="numberDecimal"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_below="@id/home_status_spinner"
-                android:layout_toRightOf="@id/minPrice_editText" />
+                android:layout_toEndOf="@id/minPrice_editText" />
 
             <EditText
                 android:id="@+id/minBeds_editText"
@@ -111,7 +112,7 @@
                 android:layout_marginVertical="5dp"
                 android:hint="Min Beds"
                 android:inputType="number"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_below="@id/minPrice_editText" />
 
             <EditText
@@ -120,10 +121,10 @@
                 android:layout_height="wrap_content"
                 android:hint="Max Beds"
                 android:inputType="number"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_marginVertical="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_toRightOf="@id/minBeds_editText"
+                android:layout_toEndOf="@id/minBeds_editText"
                 android:layout_below="@id/maxPrice_editText"/>
 
             <EditText
@@ -133,7 +134,7 @@
                 android:hint="Min Baths"
                 android:layout_marginVertical="5dp"
                 android:inputType="numberDecimal"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_alignStart="@id/maxPrice_editText"
                 android:layout_below="@id/maxPrice_editText"/>
 
@@ -142,11 +143,11 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:hint="Max Baths"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginVertical="5dp"
                 android:inputType="numberDecimal"
-                android:textSize="15dp"
-                android:layout_toRightOf="@id/minBaths_editText"
+                android:textSize="15sp"
+                android:layout_toEndOf="@id/minBaths_editText"
                 android:layout_below="@id/maxPrice_editText" />
 
             <EditText
@@ -172,19 +173,28 @@
 
             <CheckBox
                 android:id="@+id/hasGarage_checkbox"
-                android:layout_width="85dp"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
-                android:text="Has Garage"
+                android:layout_alignStart="@id/minBaths_editText"
                 android:layout_alignBottom="@id/minSqft_editText"
-                android:layout_alignStart="@id/minBaths_editText"/>
+                android:layout_marginStart="-12dp"
+                android:text="Has Garage" />
 
             <CheckBox
                 android:id="@+id/hasPool_checkbox"
-                android:layout_width="85dp"
+                android:layout_width="62dp"
                 android:layout_height="wrap_content"
                 android:text="Has Pool"
                 android:layout_alignBottom="@id/hasGarage_checkbox"
-                android:layout_alignStart="@id/maxBaths_editText"/>
+                android:layout_toEndOf="@id/hasGarage_checkbox" />
+
+            <CheckBox
+                android:id="@+id/hasAC_checkbox"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="Has AC"
+                android:layout_alignBottom="@id/hasGarage_checkbox"
+                android:layout_toEndOf="@id/hasPool_checkbox" />
 
         </RelativeLayout>
 

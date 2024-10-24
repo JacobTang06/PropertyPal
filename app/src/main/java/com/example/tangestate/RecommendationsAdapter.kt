@@ -32,7 +32,7 @@ class RecommendationsAdapter(
 
     override fun getItemCount() = houses.size
 
-    fun updateItemColor(position: Int, likeStatus: Boolean) {
+    fun updateItemColor(position: Int) {
         val house = houses[position]
         if (viewModel.favoriteHouseItems.value?.get(house) == true) {
             viewModel.favoriteHouseItems.value?.set(house, false)
