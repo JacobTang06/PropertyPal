@@ -1,4 +1,4 @@
-# Milestone 1 - TangEstate
+# Milestone 1 - PropertyPal
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@
 
 ### Description
 
-TangEstate is a mobile application designed for users to view and search for specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like. The app allows the users to view the features of the home they click on as well and keeps a log of all the homes they've liked/pinned.
+PropertyPal is a mobile application designed for users to view and search for specific homes around their location. They can narrow down the homes they want to view using filters and can mark homes they like. The app allows the users to view the features of the home they click on as well and keeps a log of all the homes they've liked/pinned.
 ### App Evaluation
 
 - **Category:** Real Estate
