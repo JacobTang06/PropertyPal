@@ -4,7 +4,6 @@
 
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
-1. [Navigation](#Navigation)
 
 <!-- ![Codepath-Capstone-Project](https://hackmd.io/_uploads/By_tQ7JeC.png)
 
