@@ -33,8 +33,8 @@ PropertyPal is a mobile application designed for users to view and search for sp
 - [x] Login and Signup Functionality: Users must sign in to access house info and past house data they have saved.
 - [x] Search Houses: Search bar that allows users to search up houses around a specified location and narrow down their search using filters.
 - [x] Liked Houses: Database that stores houses and house details the users have liked/pinned.
-- [ ] House Details: Displays the details of the house when the user clicks on a specific house they are interested in.
-- [ ] House Recommendations: Keeps track of liked houses statistics and provides house recommendations to the user based on these stats.
+- [x] House Details: Displays the details of the house when the user clicks on a specific house they are interested in.
+- [x] House Recommendations: Keeps track of liked houses statistics and provides house recommendations to the user based on these stats.
 
 **Optional Features**
 
@@ -51,9 +51,9 @@ PropertyPal is a mobile application designed for users to view and search for sp
 - Profile Screen
     - [ ] Required Story: Users can adjust their settings, manage their account, or log out.
 - Details Screen
-    - [ ] Required Story: Users can view the details of the house, including the price, # of bedrooms and bathrooms, and the square footage.
+    - [x] Required Story: Users can view the details of the house, including the price, # of bedrooms and bathrooms, and the square footage.
  - Suggestions Screen
-    - [ ] Required Story: Keeps track of liked houses statistics and uses that data to provide house recommendations to the user.
+    - [x] Required Story: Keeps track of liked houses statistics and uses that data to provide house recommendations to the user.
 
 ### 3. Navigation
 
