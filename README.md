@@ -4,6 +4,7 @@
 
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
+1. [Wireframes](#Wireframes)
 
 <!-- ![Codepath-Capstone-Project](https://hackmd.io/_uploads/By_tQ7JeC.png)
 
@@ -70,6 +71,8 @@ PropertyPal is a mobile application designed for users to view and search for sp
 - Browse Screen <==> Details Screen
 - Favorites Screen <==> Details Screen
 - Suggestions Screen <==> Details Screen
+
+## Wireframes
 
 ### Digital Wireframe
 <img src="DigitalWireframe.png" width=600>
